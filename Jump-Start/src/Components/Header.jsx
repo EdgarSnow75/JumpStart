@@ -13,7 +13,7 @@ const Header = (props) => {
                         <input type="text" placeholder="Search" className="input text-black" />
                        
             </div>
-            <button class="bg-orange-600 hover:bg-orange-700  ">
+            <button class="bg-secondary hover:bg-orange-700  ">
                 Search 
             </button>
             <div className="flex-none">
@@ -55,10 +55,10 @@ const Header = (props) => {
                     </div>
                 </div>
                 </div>
-                <button class="bg-orange-600 hover:bg-orange-700 mx-1  ">
+                <button class="bg-secondary hover:bg-orange-700 mx-1  ">
                 Login 
                 </button>
-                <button class="bg-orange-600 hover:bg-orange-700 mx-1 ">
+                <button class="bg-secondary hover:bg-orange-700 mx-1 ">
                 Register 
                 </button>
             </div>
