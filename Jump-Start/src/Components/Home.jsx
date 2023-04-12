@@ -1,4 +1,4 @@
 const Home = () => {
-  return <div className="ring-1 text-primary p-10 bg-secondary"> Oh Hi</div>;
+  return <div className=""> </div>;
 };
 export default Home;
