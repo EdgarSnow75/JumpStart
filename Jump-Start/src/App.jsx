@@ -4,17 +4,23 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Components/Home";
-import Header from "./Components/UI/Common/Header";
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
+import AboutUs from "./Components/AboutUs";
 
 const App = () => {
   return (
     <div className="App">
       <BrowserRouter>
-        {/* <Header /> */}
+        <Header />
+
         <Routes>
           <Route path="/" element={<Home />}></Route>
+          <Route path="/About" element={<AboutUs />}></Route>
         </Routes>
       </BrowserRouter>
+
+      <Footer />
     </div>
   );
 };
