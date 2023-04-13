@@ -3,12 +3,12 @@ import JumpStart from "/src/Images/HeaderAndFooter/JumpStart.png"
 const Footer = (props) => {
 
     return (
-    <footer className="footer absolute bottom-0 w-screen bg-primary text-white justify-center">
+    <footer className="footer static bottom-0 w-screen bg-primary text-white justify-center">
     
         
         <div className="container flex">
             
-            <div className="grid-cols flex-block absolute left-11 bottom-4">
+            <div className="grid-cols flex-block relative right-52 top-8 ">
                 <p className="w-full">Privacy Notice</p>
                 <p>Copyright</p>
             </div>
@@ -26,7 +26,7 @@ const Footer = (props) => {
                         <li><a>Contact Us</a></li>
                     </ul>
                 </div>
-            <div className="grid-cols absolute end-5 bottom-6">
+            <div className="grid-cols relative left-40 top-8 ">
             
                 <div className="a">
                     <div className=" grid grid-flow-col gap-4">
