@@ -7,6 +7,7 @@ import Home from "./Components/Home";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import AboutUs from "./Components/AboutUs";
+import UserLogin from "./Components/Login&SignUp/UserLogin";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/About" element={<AboutUs />}></Route>
+          <Route path="/userLogin" element={<UserLogin />}></Route>
         </Routes>
       </BrowserRouter>
 

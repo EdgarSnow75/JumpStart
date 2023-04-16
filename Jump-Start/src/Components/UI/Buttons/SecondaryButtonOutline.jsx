@@ -2,7 +2,7 @@ const SecondaryButtonOutline = (props) => {
   return (
     <button
       type={props.type}
-      className="btn-outline btn-secondary"
+      className={`btn btn-outline btn-secondary ${props.className}`}
       onClick={props.onClick}
     >
       {props.children}
