@@ -1,8 +1,9 @@
+import ProductList from "./Products/ProductList";
 import SecondaryButton from "./UI/Buttons/SecondaryButton";
 import Hero1 from "images/hero1.jpg";
 const Home = () => {
   return (
-    <div className="p-2">
+    <div className="pb-2 px-6">
       <div className="carousel w-full h-[30rem]">
         <div id="slide1" className="carousel-item relative w-full">
           <img src={Hero1} className="w-full" />
@@ -58,8 +59,9 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="my-4">
-        <h2>Products Featured</h2>
+      <div className="m-4">
+        <h2 className="text-3xl font-bold">Products Featured</h2>
+        ~<ProductList />
       </div>
     </div>
   );
