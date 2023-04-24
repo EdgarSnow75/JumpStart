@@ -1,17 +1,81 @@
 import { useNavigate } from "react-router-dom";
 import SecondaryButton from "../UI/Buttons/SecondaryButton";
+import { useEffect } from "react";
+import UserService from "../../services/UserService";
+import ToastProps from "../UI/Notification/ToastProps";
 
 const UserLogin = (props) => {
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    setUserType,
+    setUserDetails,
+    userType,
+    setToasts,
+  } = props;
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      switch (userType) {
+        case "customer":
+          navigate("/customer/customerProfile");
+          break;
+        case "admin":
+          navigate("/admin/adminDashboard");
+          break;
+      }
+    }
+  }, [isLoggedIn]);
+
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    console.log("It worked!");
-  };
+  async function handleLogin(e) {
+    e.preventDefault();
+
+    const emailAddress = e.target.emailAddress?.value;
+    const password = e.target.password?.value;
+
+    const credentials = {
+      emailAddress,
+      password,
+    };
+
+    try {
+      const { userType } = await UserService.login(credentials);
+      setUserType(userType);
+
+      setToasts((toasts) => [
+        ...toasts,
+        new ToastProps({ message: "Login successful" }),
+      ]);
+    } catch (error) {
+      console.log(error);
+      setToasts((toasts) => [
+        ...toasts,
+        new ToastProps({ type: "error", message: err }),
+      ]);
+      return;
+    }
+
+    try {
+      const userDetails = await UserService.getUserDetails();
+      setUserDetails(userDetails);
+
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.log(error);
+      setToasts((toasts) => [
+        ...toasts,
+        new ToastProps({ type: "error", message: err }),
+      ]);
+    }
+  }
+
   return (
-    <div>
+    <div className="min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center">
         <div className="text-center">
-          <h2 className="text-6xl my-4">Login In</h2>
+          <h2 className="text-6xl my-4">Login</h2>
         </div>
         <div className="rounded-md w-[30rem] shadow-md p-10 pt-6 my-4 ring-[0.5px] ring-[rgba(0,0,0,0.2) bg-primary text-white">
           <h3 className="text-center mb-4 text-xl">
@@ -40,13 +104,12 @@ const UserLogin = (props) => {
             </div>
             <div className="flex justify-center items-center">
               <SecondaryButton type="submit" className="my-4">
-                {" "}
-                Login{" "}
+                Login
               </SecondaryButton>
             </div>
             <div>
               <a
-                onClick={() => handleLink("/forgetPassword")}
+                onClick={() => navigate("/forgetPassword")}
                 className="link link-secondary ml-1 mt-3"
               >
                 Forgot your password?

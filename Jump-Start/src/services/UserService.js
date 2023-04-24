@@ -1,7 +1,7 @@
 import axios from "axios";
 
 class UserService {
-    #API_URI = "https://localhost:3000/api/user";
+    #API_URI = "http://localhost:3000/api/user";
     #LOCAL_STORAGE_KEY = "refreshToken";
 
     async login(credentials) {

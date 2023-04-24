@@ -1,12 +1,12 @@
 import axios from "axios";
 
 class CustomerService {
-    #API_URI = "https://localhost:3000/api/customer";
+    #API_URI = "http://localhost:3000/api/customer";
 
     async signup(details) {
         const {
             customerName,
-            customerEmail,
+            emailAddress,
             password,
             customerLocation,
             customerContact,
@@ -16,7 +16,7 @@ class CustomerService {
             `${this.#API_URI}/signup`,
             {
                 customerName,
-                customerEmail,
+                emailAddress,
                 password,
                 customerLocation,
                 customerContact,
@@ -31,17 +31,17 @@ class CustomerService {
     async update(details) {
         const {
             customerName,
-            customerEmail,
+            emailAddress,
             password,
             customerLocation,
             customerContact,
         } = details;
 
-        const response = await axios.post(
+        const response = await axios.put(
             `${this.#API_URI}/update`,
             {
                 customerName,
-                customerEmail,
+                emailAddress,
                 password,
                 customerLocation,
                 customerContact,

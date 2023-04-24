@@ -1,6 +1,15 @@
+const withMT = require("@material-tailwind/react/utils/withMT")
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = withMT({
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    fontFamily: {
+      sans: ['"Josefin Sans"', "ui-sans-serif", "system-ui"],
+      serif: ["ui-serif", "Georgia"],
+      mono: ["ui-monospace", "SFMono-Regular"],
+    },
+    extend: {},
+  },
   daisyui: {
     themes: [
       {
@@ -36,5 +45,5 @@ export default {
   plugins: [
     require("daisyui"),
   ],
-}
+});
 
