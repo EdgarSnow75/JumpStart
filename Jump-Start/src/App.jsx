@@ -7,6 +7,8 @@ import AboutUs from "./Components/Common/AboutUs";
 import UserLogin from "./Components/Login&SignUp/UserLogin";
 import Privacy from "./Components/Privacy";
 import Return from "./Components/Return";
+import Contact from "./Components/Contact";
+import Map from "./Components/Location/Map";
 import ThankYou from "./Components/Login&SignUp/ThankYou";
 import UserSignUp from "./Components/Login&SignUp/UserSignUp";
 import { useEffect, useState } from "react";
