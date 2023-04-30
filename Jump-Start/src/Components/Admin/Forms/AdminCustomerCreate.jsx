@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BackButton from "../../generic/BackButton";
+import BackButton from "../../UI/Buttons/BackButton";
 import ToastProps from "../../UI/Notification/ToastProps";
+import SecondaryButton from "../../UI/Buttons/SecondaryButton";
+import AdminService from "../../../services/AdminService";
 
 const AdminCustomerCreate = (props) => {
   const { setToasts } = props;
   const [customer, setCustomer] = useState({
     customerName: "",
     emailAddress: "",
+    password: "",
     customerLocation: "",
     customerContact: "",
   });
@@ -24,12 +27,22 @@ const AdminCustomerCreate = (props) => {
     });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setToasts((toasts) => [
-      ...toasts,
-      new ToastProps({ message: "Customer User Created Successfully!" }),
-    ]);
+    try {
+      const response = await AdminService.newUser(customer, "customer");
+      console.log(response);
+      setToasts((toasts) => [
+        ...toasts,
+        new ToastProps({ message: "Customer User Created Successfully!" }),
+        setTimeout(() => {
+          navigate("/admin/adminDashboard");
+        }, 3000),
+      ]);
+    } catch (error) {
+      const err = error.response.data.msg;
+      setToasts((toasts) => [...toasts, new ToastProps({ message: err })]);
+    }
   };
 
   const handleLink = (path) => {
@@ -37,12 +50,12 @@ const AdminCustomerCreate = (props) => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="text-white flex flex-col items-center">
         <h2 className="font-bold text-4xl text-black my-4">
           Create a new customer user
         </h2>
-        <div className="rounded-md w-[35rem] shadow-md p-10 pt-2 my-4 ring-[0.5px] ring-[rgba(0,0,0,0.2) bg-accent">
+        <div className="rounded-md w-[35rem] shadow-md p-10 pt-2 my-4 ring-[0.5px] ring-[rgba(0,0,0,0.2) bg-primary">
           <form
             onSubmit={submitHandler}
             className="mt-8 max-w-md grid grid-cols-1 gap-6"
@@ -52,7 +65,7 @@ const AdminCustomerCreate = (props) => {
               <input
                 type="text"
                 name="customerName"
-                className="w-[30rem] input"
+                className="w-[30rem] input text-black"
                 placeholder="First Name"
                 value={customer.customerName}
                 onChange={inputChangeHandler}
@@ -65,9 +78,21 @@ const AdminCustomerCreate = (props) => {
               <input
                 type="email"
                 name="emailAddress"
-                className="w-[30rem] input"
+                className="w-[30rem] input text-black"
                 placeholder="Email"
                 value={customer.emailAddress}
+                onChange={inputChangeHandler}
+                required
+              />
+            </div>
+            <div className="flex flex-col">
+              <label className="mr-4">Password</label>
+              <input
+                type="password"
+                name="password"
+                className="w-[30rem] input text-black"
+                placeholder="Password must be between 4-13 letters"
+                value={customer.password}
                 onChange={inputChangeHandler}
                 required
               />
@@ -76,9 +101,9 @@ const AdminCustomerCreate = (props) => {
               <label className="mr-4">Full Address</label>
               <input
                 type="text"
-                name="usercustomerLocation"
-                className="w-[30rem] input"
-                placeholder="customerLocation:"
+                name="customerLocation"
+                className="w-[30rem] input text-black"
+                placeholder="Location"
                 value={customer.customerLocation}
                 onChange={inputChangeHandler}
                 required
@@ -89,35 +114,18 @@ const AdminCustomerCreate = (props) => {
               <input
                 type="text"
                 name="customerContact"
-                className="w-[30rem] input"
+                className="w-[30rem] input text-black"
                 placeholder="Contact"
                 value={customer.customerContact}
                 onChange={inputChangeHandler}
                 required
               />
             </div>
-
-            <div>
-              <label className="mr-4 flex items-center">
-                <input
-                  type="checkbox"
-                  className="mr-2 checkbox-secondary"
-                  required
-                />
-                By signing up, you agree to our
-                <a
-                  onClick={() => handleLink("/privacyPolicy")}
-                  className="link link-primary ml-1"
-                >
-                  Terms & Conditions
-                </a>
-              </label>
-            </div>
             <div className="flex justify-center items-center">
               <BackButton />
-              <button type="submit" className="btn ml-10 w-40 btn-primary">
+              <SecondaryButton type="submit" className="ml-4">
                 Create
-              </button>
+              </SecondaryButton>
             </div>
           </form>
         </div>

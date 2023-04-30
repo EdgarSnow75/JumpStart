@@ -15,10 +15,12 @@ import { useEffect, useState } from "react";
 import UserService from "./services/UserService";
 import CustomerProfile from "./Components/Profile/CustomerProfile";
 import CustomerProfileUpdate from "./Components/Profile/CustomerProfileUpdate";
-import TestButton from "./Components/UI/Buttons/TestButton";
 import ToastContainer from "./Components/UI/Notification/ToastContainer";
 import AdminDashBoard from "./Components/Admin/AdminDashboard";
 import AdminCustomerProfileUpdate from "./Components/Admin/Forms/AdminCustomerProfileUpdate";
+import AdminCustomerCreate from "./Components/Admin/Forms/AdminCustomerCreate";
+import AdminStoreCreate from "./Components/Admin/Forms/AdminStoreCreate";
+import AdminStoreProfileUpdate from "./Components/Admin/Forms/AdminStoreProfileUpdate";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -56,9 +58,26 @@ const App = () => {
 
         <Routes>
           <Route path="/" element={<Home />}></Route>
+
+          <Route
+            path="/admin/adminDashboard"
+            element={
+              <AdminDashBoard
+                userDetails={userDetails}
+                isLoggedIn={isLoggedIn}
+                userType={userType}
+                setToasts={setToasts}
+              />
+            }
+          ></Route>
           <Route
             path="/admin/customerUpdate/:id"
             element={<AdminCustomerProfileUpdate setToasts={setToasts} />}
+          ></Route>
+
+          <Route
+            path="/admin/customerCreate"
+            element={<AdminCustomerCreate setToasts={setToasts} />}
           ></Route>
           <Route path="/user/thankyou" element={<ThankYou />}></Route>
           <Route
@@ -72,17 +91,14 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="/admin/adminDashboard"
-            element={
-              <AdminDashBoard
-                userDetails={userDetails}
-                isLoggedIn={isLoggedIn}
-                userType={userType}
-                setToasts={setToasts}
-              />
-            }
+            path="/store/newStore"
+            element={<AdminStoreCreate setToasts={setToasts} />}
           ></Route>
-          <Route path="/tester/button" element={<TestButton />}></Route>
+          <Route
+            path="/store/update/:id"
+            element={<AdminStoreProfileUpdate setToasts={setToasts} />}
+          ></Route>
+
           <Route
             path="/user/login"
             element={

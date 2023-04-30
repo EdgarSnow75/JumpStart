@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import ToastProps from "../UI/Notification/ToastProps";
 // import AdminDeliveryControl from "./AdminDeliveryControl";
 // import AdminReportControl from "./AdminReportControl";
-// import AdminScheduleControl from "./AdminScheduleControl";
 import AdminUserControl from "./AdminUserControl";
+import AdminStoreControl from "./AdminStoreControl";
+import AdminInventoryControl from "./AdminInventoryControl";
 
 const AdminDashBoard = (props) => {
   const { isLoggedIn, userDetails, setToasts } = props;
@@ -38,15 +39,16 @@ const AdminDashBoard = (props) => {
           <select onChange={onChangeHandler}>
             <option value="" disabled></option>
             <option value="Users">Users</option>
-            <option value="Inventory">Inventory</option>
-            <option value="Orders">Orders</option>
+            <option value="Stores">Stores</option>
+            <option value="Inventories">Inventories</option>
             <option value="Reports">Reports</option>
           </select>
         </div>
         {tab === "Users" && <AdminUserControl />}
-        {/* {tab === "Inventory" && <AdminScheduleControl setToasts={setToasts} />}
-        {tab === "Orders" && <AdminDeliveryControl setToasts={setToasts} />}
-        {tab === "Reports" && <AdminReportControl />} */}
+        {tab === "Stores" && <AdminStoreControl setToasts={setToasts} />}
+        {tab === "Inventories" && (
+          <AdminInventoryControl setToasts={setToasts} />
+        )}
       </div>
     </div>
   );

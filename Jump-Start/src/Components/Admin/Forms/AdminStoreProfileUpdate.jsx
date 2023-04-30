@@ -2,26 +2,24 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BackButton from "../../UI/Buttons/BackButton";
 import ToastProps from "../../UI/Notification/ToastProps";
-import AdminService from "../../../services/AdminService";
+import StoreService from "../../../services/StoreService";
 
-const AdminCustomerProfileUpdate = (props) => {
+const AdminStoreProfileUpdate = (props) => {
   const { id } = useParams();
   const { setToasts } = props;
-  const [customer, setCustomer] = useState({
+  const [store, setStore] = useState({
     _id: "",
-    customerName: "",
-    emailAddress: "",
-    customerLocation: "",
-    customerContact: "",
+    storeName: "",
+    storeLocation: "",
   });
 
   useEffect(() => {
-    async function fetchUser() {
-      const userData = await AdminService.getUser(id);
+    async function fetchStore() {
+      const storeData = await StoreService.getStore(id);
 
-      setCustomer(userData);
+      setStore(storeData);
     }
-    fetchUser();
+    fetchStore();
   }, [id]);
 
   const inputChangeHandler = (event) => {
@@ -29,9 +27,9 @@ const AdminCustomerProfileUpdate = (props) => {
     const name = target.name;
     const value = target.value;
 
-    // For other input types, update the customer with the new value
-    setCustomer({
-      ...customer,
+    // For other input types, update the store with the new value
+    setStore({
+      ...store,
       [name]: value,
     });
   };
@@ -40,7 +38,7 @@ const AdminCustomerProfileUpdate = (props) => {
     e.preventDefault();
 
     try {
-      const response = await AdminService.updateUser(customer, id);
+      const response = await StoreService.updateStore(store, id);
       setToasts((toasts) => [
         ...toasts,
         new ToastProps({ message: response.msg }),
@@ -58,7 +56,7 @@ const AdminCustomerProfileUpdate = (props) => {
     <div className="min-h-screen">
       <div className="text-white flex flex-col items-center">
         <h2 className="font-bold text-4xl text-black my-4">
-          Update your profile
+          Update the store details
         </h2>
         <div className="rounded-md w-[35rem] shadow-md p-10 pt-2 my-4 ring-[0.5px] ring-[rgba(0,0,0,0.2) bg-info">
           <form
@@ -67,53 +65,31 @@ const AdminCustomerProfileUpdate = (props) => {
             className="mt-8 max-w-md grid grid-cols-1 gap-6"
           >
             <div className="flex flex-col">
-              <label className="mr-4">Full Name: </label>
+              <label className="mr-4">Store Name: </label>
               <input
                 type="text"
-                name="customerName"
+                name="storeName"
                 className="w-[30rem] input text-black"
-                placeholder="First Name"
-                value={customer.customerName}
+                placeholder="Store Name"
+                value={store.storeName}
                 onChange={inputChangeHandler}
                 required
               />
             </div>
+
             <div className="flex flex-col">
-              <label className="mr-4">Email Address: </label>
-              <input
-                type="email"
-                name="emailAddress"
-                className="w-[30rem] input text-black"
-                placeholder="Email"
-                value={customer.emailAddress}
-                onChange={inputChangeHandler}
-                required
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="mr-4">Full Address: </label>
+              <label className="mr-4">Store Address: </label>
               <input
                 type="text"
-                name="customerLocation"
+                name="storeLocation"
                 className="w-[30rem] input text-black"
-                placeholder="customerLocation:"
-                value={customer.customerLocation}
+                placeholder="storeLocation"
+                value={store.storeLocation}
                 onChange={inputChangeHandler}
                 required
               />
             </div>
-            <div className="flex flex-col">
-              <label className="mr-4">Contact Number</label>
-              <input
-                type="text"
-                name="customerContact"
-                className="w-[30rem] input text-black"
-                placeholder="Contact"
-                value={customer.customerContact}
-                onChange={inputChangeHandler}
-                required
-              />
-            </div>
+
             <div className="flex justify-center items-center">
               <BackButton />
               <button type="submit" className="btn ml-10 w-40 btn-secondary">
@@ -126,4 +102,4 @@ const AdminCustomerProfileUpdate = (props) => {
     </div>
   );
 };
-export default AdminCustomerProfileUpdate;
+export default AdminStoreProfileUpdate;

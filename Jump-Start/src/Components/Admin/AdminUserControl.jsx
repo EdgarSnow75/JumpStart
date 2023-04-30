@@ -41,7 +41,7 @@ const AdminUserControl = () => {
       <div className="flex flex-col items-center">
         <button
           className="btn btn-primary my-6"
-          onClick={() => handleLink("/adminDashboard/customerCreate")}
+          onClick={() => handleLink("/admin/customerCreate")}
         >
           Create new customer
         </button>

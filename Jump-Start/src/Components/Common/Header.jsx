@@ -38,7 +38,7 @@ const Header = (props) => {
   };
 
   return (
-    <div className="navbar w-screen bg-primary px-4 sticky top-0 z-20 text-white">
+    <div className="navbar w-full bg-primary px-4 sticky top-0 z-20 text-white">
       <div className="flex-1">
         <a
           className="flex items-center cursor-pointer hover:text-primary normal-case w-40 mt-4"
