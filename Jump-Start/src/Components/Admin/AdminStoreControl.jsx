@@ -84,12 +84,12 @@ const AdminStoreControl = () => {
                   </td>
                   <td>
                     <div className="flex flex-col items-center">
-                      <button className="btn btn-secondary w-24 mb-2">
-                        <Link to={`/inventory/${store._id}`}>
+                      <button className="btn btn-secondary w-40 mb-2">
+                        <Link to={`/store/inventory/${store._id}`}>
                           Update Inventory
                         </Link>
                       </button>
-                      <button className="btn btn-secondary w-24 mb-2">
+                      <button className="btn btn-secondary w-30 mb-2">
                         <Link to={`/store/update/${store._id}`}>
                           Update Store
                         </Link>

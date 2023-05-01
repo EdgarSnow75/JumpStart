@@ -36,8 +36,10 @@ const AdminDashBoard = (props) => {
         <h3 className="text-3xl my-4">Welcome Admin</h3>
         <div className="flex flex-col mb-6">
           <label className="mb-2 text-lg">Choose management system</label>
-          <select onChange={onChangeHandler}>
-            <option value="" disabled></option>
+          <select onChange={onChangeHandler} className="select-md ring-2">
+            <option value="" disabled>
+              -Select an opinion-
+            </option>
             <option value="Users">Users</option>
             <option value="Stores">Stores</option>
             <option value="Inventories">Inventories</option>

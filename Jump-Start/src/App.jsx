@@ -21,6 +21,10 @@ import AdminCustomerProfileUpdate from "./Components/Admin/Forms/AdminCustomerPr
 import AdminCustomerCreate from "./Components/Admin/Forms/AdminCustomerCreate";
 import AdminStoreCreate from "./Components/Admin/Forms/AdminStoreCreate";
 import AdminStoreProfileUpdate from "./Components/Admin/Forms/AdminStoreProfileUpdate";
+import AdminStoreInventory from "./Components/Admin/AdminStoreInvetory";
+import AdminStoreItemCreate from "./Components/Admin/Forms/AdminStoreItemCreate";
+import AdminItemCreate from "./Components/Admin/Forms/AdminItemCreate";
+import AdminItemProfileUpdate from "./Components/Admin/Forms/AdminItemProfileUpdate";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -97,6 +101,22 @@ const App = () => {
           <Route
             path="/store/update/:id"
             element={<AdminStoreProfileUpdate setToasts={setToasts} />}
+          ></Route>
+          <Route
+            path="/store/inventory/:id"
+            element={<AdminStoreInventory setToasts={setToasts} />}
+          ></Route>
+          <Route
+            path="/:id/items/newItem"
+            element={<AdminStoreItemCreate setToasts={setToasts} />}
+          ></Route>
+          <Route
+            path="/items/newItem"
+            element={<AdminItemCreate setToasts={setToasts} />}
+          ></Route>
+          <Route
+            path="/item/itemUpdate/:id"
+            element={<AdminItemProfileUpdate setToasts={setToasts} />}
           ></Route>
 
           <Route

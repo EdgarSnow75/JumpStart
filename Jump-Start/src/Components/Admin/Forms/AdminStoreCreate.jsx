@@ -35,7 +35,7 @@ const AdminStoreCreate = (props) => {
         new ToastProps({ message: "store Created Successfully!" }),
         setTimeout(() => {
           navigate("/admin/adminDashboard");
-        }, 3000),
+        }, 2000),
       ]);
     } catch (error) {
       const err = error.response.data.msg;

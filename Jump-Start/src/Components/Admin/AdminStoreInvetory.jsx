@@ -1,49 +1,80 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import StoreService from "../../services/StoreService";
 
-const AdminInventoryControl = () => {
+const AdminStoreInventory = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState({
+    _id: "",
+    storeName: "",
+    storeLocation: "",
+    inventory: [],
+  });
+
+  useEffect(() => {
+    async function fetchStore() {
+      const storeData = await StoreService.getStore(id);
+
+      setItems(storeData);
+    }
+    fetchStore();
+  }, [id]);
 
   const handleDeleteItem = async (itemID) => {
     if (window.confirm("Are you sure you want to delete this item?")) {
       const response = await StoreService.deleteItem(itemID);
       console.log(response);
-
-      viewItems();
     }
   };
+  // const inputChangeHandler = (event) => {
+  //   const target = event.target;
+  //   const name = target.name;
+  //   const value = target.value;
 
-  const viewItems = async () => {
-    try {
-      const items = await StoreService.getItems();
+  //   // For other input types, update the store with the new value
+  //   setItems({
+  //     ...items,
+  //     [name]: value,
+  //   });
+  // };
 
-      setItems(items);
-      console.log(items);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const viewItems = async () => {
+  //   try {
+  //     const items = await StoreService.getItems();
 
-  useEffect(() => {
-    viewItems();
-  }, []);
+  //     setItems(items);
+  //     console.log(items);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  if (items.length === 0) {
-    return <p>No items found.</p>;
-  }
+  // useEffect(() => {
+  //   viewItems();
+  // }, []);
 
-  const handleLink = (path) => {
-    navigate(path);
-  };
+  // if (items.length === 0) {
+  //   return <p>No items found.</p>;
+  // }
 
   return (
     <div className="my-8">
+      <div className="mb-8 mx-40 pb-6 border-b-4">
+        <h2 className="text-center text-4xl">
+          Viewing the Inventory of
+          <span className="font-bold"> {items.storeName}</span>
+        </h2>
+      </div>
+      <div className="mb-4">
+        <h2 className="text-center text-4xl text-warning">
+          Items in need of restocking
+        </h2>
+      </div>
       <div className="flex flex-col items-center">
         <button
           className="btn btn-primary my-6"
-          onClick={() => handleLink("/items/newItem")}
+          onClick={() => navigate(`/${items._id}/items/newItem`)}
         >
           Add a new item
         </button>
@@ -52,7 +83,6 @@ const AdminInventoryControl = () => {
             <thead>
               <tr>
                 <th className="z-0">Item ID</th>
-                <th>Store ID</th>
                 <th>Item Name</th>
                 <th>Item Image</th>
                 <th>Item Description</th>
@@ -66,10 +96,9 @@ const AdminInventoryControl = () => {
               </tr>
             </thead>
             <tbody>
-              {items.map((item) => (
+              {items.inventory.map((item) => (
                 <tr key={item._id} className="hover">
                   <th className="z-0">{item._id}</th>
-                  <td>{item.storeID}</td>
                   <td className="whitespace-pre-wrap">{item.itemName}</td>
                   <td>
                     <img src={item.itemImg} />
@@ -106,7 +135,6 @@ const AdminInventoryControl = () => {
             <tfoot>
               <tr>
                 <th>Item ID</th>
-                <th>Store ID</th>
                 <th>Item Name</th>
                 <th>Item Image</th>
                 <th>Item Description</th>
@@ -126,4 +154,4 @@ const AdminInventoryControl = () => {
   );
 };
 
-export default AdminInventoryControl;
+export default AdminStoreInventory;

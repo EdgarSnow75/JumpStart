@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import BackButton from "../../UI/Buttons/BackButton";
 import ToastProps from "../../UI/Notification/ToastProps";
 import SecondaryButton from "../../UI/Buttons/SecondaryButton";
 import StoreService from "../../../services/StoreService";
 
-const AdminItemCreate = (props) => {
+const AdminStoreItemCreate = (props) => {
+  const { id } = useParams();
   const { setToasts } = props;
-  const [stores, setStores] = useState([]);
   const [item, setItem] = useState({
     itemName: "",
     itemImg: "",
@@ -20,25 +20,6 @@ const AdminItemCreate = (props) => {
     storeID: "",
   });
   const navigate = useNavigate();
-
-  useEffect(() => {
-    async function fetchStores() {
-      const storeData = await StoreService.getStores();
-
-      setStores(storeData);
-    }
-    fetchStores();
-  }, []);
-
-  // const fetchStores = async () => {
-  //   try {
-  //     const storeData = await StoreService.getStores();
-  //     setStores(stores);
-  //     console.log(stores);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   const inputChangeHandler = (event) => {
     const target = event.target;
@@ -54,7 +35,7 @@ const AdminItemCreate = (props) => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await StoreService.addItemToStore(item, item.storeID);
+      const response = await StoreService.addItemToStore(item, id);
       console.log(response);
       setToasts((toasts) => [
         ...toasts,
@@ -82,27 +63,6 @@ const AdminItemCreate = (props) => {
             onSubmit={submitHandler}
             className="mt-8 max-w-md grid grid-cols-1 gap-6"
           >
-            <div className="flex flex-col">
-              <label className="mr-4">
-                Choose Which Store you want to add this item to:{" "}
-              </label>
-              <select
-                name="storeID"
-                className="w-[30rem] input text-black"
-                value={item.storeID}
-                onChange={inputChangeHandler}
-                required
-              >
-                <option value="" disabled>
-                  Select Store
-                </option>
-                {stores.map((store) => (
-                  <option key={store._id} value={store._id}>
-                    {store.storeName}
-                  </option>
-                ))}
-              </select>
-            </div>
             <div className="flex flex-col">
               <label className="mr-4">Item Name</label>
               <input
@@ -212,4 +172,4 @@ const AdminItemCreate = (props) => {
     </div>
   );
 };
-export default AdminItemCreate;
+export default AdminStoreItemCreate;

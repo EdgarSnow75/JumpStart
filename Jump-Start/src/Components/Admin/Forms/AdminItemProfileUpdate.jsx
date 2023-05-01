@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import BackButton from "../../UI/Buttons/BackButton";
-import ToastProps from "../../UI/Notification/ToastProps";
 import SecondaryButton from "../../UI/Buttons/SecondaryButton";
+import ToastProps from "../../UI/Notification/ToastProps";
 import StoreService from "../../../services/StoreService";
 
-const AdminItemCreate = (props) => {
+const AdminItemProfileUpdate = (props) => {
+  const { id } = useParams();
   const { setToasts } = props;
-  const [stores, setStores] = useState([]);
   const [item, setItem] = useState({
     itemName: "",
     itemImg: "",
@@ -19,32 +19,25 @@ const AdminItemCreate = (props) => {
     restockStatus: false,
     storeID: "",
   });
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchStores() {
-      const storeData = await StoreService.getStores();
+    async function fetchItem() {
+      const itemData = await StoreService.getItem(id);
 
-      setStores(storeData);
+      setItem(itemData);
+      console.log(item);
     }
-    fetchStores();
-  }, []);
-
-  // const fetchStores = async () => {
-  //   try {
-  //     const storeData = await StoreService.getStores();
-  //     setStores(stores);
-  //     console.log(stores);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+    fetchItem();
+  }, [id]);
 
   const inputChangeHandler = (event) => {
     const target = event.target;
     const name = target.name;
     const value = target.value;
 
+    // For other input types, update the item with the new value
     setItem({
       ...item,
       [name]: value,
@@ -53,21 +46,22 @@ const AdminItemCreate = (props) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await StoreService.addItemToStore(item, item.storeID);
-      console.log(response);
+      const response = await StoreService.updateItem(item, id);
       setToasts((toasts) => [
         ...toasts,
-        new ToastProps({
-          message: "Item added to the store's inventory successfully!",
-        }),
+        new ToastProps({ message: response.msg }),
         setTimeout(() => {
           navigate("/admin/adminDashboard");
         }, 2000),
       ]);
     } catch (error) {
       const err = error.response.data.msg;
-      setToasts((toasts) => [...toasts, new ToastProps({ message: err })]);
+      setToasts((toasts) => [
+        ...toasts,
+        new ToastProps({ type: "error", message: err }),
+      ]);
     }
   };
 
@@ -75,34 +69,13 @@ const AdminItemCreate = (props) => {
     <div className="min-h-screen">
       <div className="text-white flex flex-col items-center">
         <h2 className="font-bold text-4xl text-black my-4">
-          Create a new item
+          Update the item details
         </h2>
-        <div className="rounded-md w-[35rem] shadow-md p-10 pt-2 my-4 ring-[0.5px] ring-[rgba(0,0,0,0.2) bg-primary">
+        <div className="rounded-md w-[35rem] shadow-md p-10 pt-2 my-4 ring-[0.5px] ring-[rgba(0,0,0,0.2) bg-info">
           <form
             onSubmit={submitHandler}
             className="mt-8 max-w-md grid grid-cols-1 gap-6"
           >
-            <div className="flex flex-col">
-              <label className="mr-4">
-                Choose Which Store you want to add this item to:{" "}
-              </label>
-              <select
-                name="storeID"
-                className="w-[30rem] input text-black"
-                value={item.storeID}
-                onChange={inputChangeHandler}
-                required
-              >
-                <option value="" disabled>
-                  Select Store
-                </option>
-                {stores.map((store) => (
-                  <option key={store._id} value={store._id}>
-                    {store.storeName}
-                  </option>
-                ))}
-              </select>
-            </div>
             <div className="flex flex-col">
               <label className="mr-4">Item Name</label>
               <input
@@ -203,7 +176,7 @@ const AdminItemCreate = (props) => {
             <div className="flex justify-center items-center">
               <BackButton />
               <SecondaryButton type="submit" className="ml-4">
-                Create
+                Update
               </SecondaryButton>
             </div>
           </form>
@@ -212,4 +185,4 @@ const AdminItemCreate = (props) => {
     </div>
   );
 };
-export default AdminItemCreate;
+export default AdminItemProfileUpdate;

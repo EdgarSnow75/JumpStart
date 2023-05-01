@@ -44,6 +44,9 @@ const AdminCustomerProfileUpdate = (props) => {
       setToasts((toasts) => [
         ...toasts,
         new ToastProps({ message: response.msg }),
+        setTimeout(() => {
+          navigate("/admin/adminDashboard");
+        }, 2000),
       ]);
     } catch (error) {
       const err = error.response.data.msg;

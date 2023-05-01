@@ -19,7 +19,7 @@ const Header = (props) => {
           setProfileLink("/customer/customerProfile");
           break;
         case "admin":
-          setProfileLink("/admin/adminProfile");
+          setProfileLink("/admin/adminDashboard");
           break;
       }
     }

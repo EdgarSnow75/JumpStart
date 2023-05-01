@@ -37,16 +37,12 @@ const AdminCustomerCreate = (props) => {
         new ToastProps({ message: "Customer User Created Successfully!" }),
         setTimeout(() => {
           navigate("/admin/adminDashboard");
-        }, 3000),
+        }, 2000),
       ]);
     } catch (error) {
       const err = error.response.data.msg;
       setToasts((toasts) => [...toasts, new ToastProps({ message: err })]);
     }
-  };
-
-  const handleLink = (path) => {
-    navigate(path);
   };
 
   return (

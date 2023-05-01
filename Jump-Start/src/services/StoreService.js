@@ -67,6 +67,17 @@ class StoreService {
     }
 
     //Items
+    async getItem(itemID) {
+        const response = await axios.get(
+            `${this.#API_URL}/items/${itemID}`,
+            {
+                withCredentials: true,
+            }
+        );
+
+        return response.data;
+    }
+
     async getStoreInventory(storeID) {
         const response = await axios.get(
             `${this.#API_URL}/${storeID}/inventory`,
@@ -116,7 +127,19 @@ class StoreService {
 
     async getItems() {
         const response = await axios.get(
-            `${this.#API_URL}/items/allItems`,
+            `${this.#API_URL}/item/allItems`,
+            {
+                withCredentials: true,
+            }
+        );
+
+        return response.data;
+    }
+
+    async updateItem(details, itemID) {
+        const response = await axios.put(
+            `${this.#API_URL}/items/update/${itemID}`,
+            details,
             {
                 withCredentials: true,
             }
