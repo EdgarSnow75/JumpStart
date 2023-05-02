@@ -1,9 +1,20 @@
+import DiscountCounter from "./Misc/DiscountCounter";
 import ProductList from "./Products/ProductList";
 import SecondaryButton from "./UI/Buttons/SecondaryButton";
 import Hero1 from "images/hero1.jpg";
 const Home = () => {
   return (
     <div className="pb-2 px-6">
+      <div className="flex flex-col items-center mt-8">
+        <h2 className="text-3xl font-bold text-secondary mb-2">
+          Time Left Till Promotion Ends:
+        </h2>
+        <DiscountCounter />
+        <h2 className="text-3xl font-bold text-secondary my-2">
+          Promotional Items:
+        </h2>
+      </div>
+
       <div className="carousel w-full h-[30rem]">
         <div id="slide1" className="carousel-item relative w-full">
           <img src={Hero1} className="w-full" />
@@ -60,6 +71,20 @@ const Home = () => {
         </div>
       </div>
       <div className="mb-6 mt-8">
+        <div>
+          <h2 className="font-bold text-4xl text-center">Product List</h2>
+        </div>
+        <div className="flex flex-row justify-center">
+          <div className="tabs tabs-boxed">
+            <a className="tab">All</a>
+            <a className="tab tab-active">Featured</a>
+            <a className="tab tab-active">Trending</a>
+            <a className="tab">DIY</a>
+            <a className="tab">Gift</a>
+            <a className="tab">Home Care</a>
+            <a className="tab">Kitchen</a>
+          </div>
+        </div>
         <ProductList />
       </div>
     </div>

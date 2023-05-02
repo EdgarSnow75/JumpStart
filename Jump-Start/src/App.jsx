@@ -26,6 +26,7 @@ import AdminStoreItemCreate from "./Components/Admin/Forms/AdminStoreItemCreate"
 import AdminItemCreate from "./Components/Admin/Forms/AdminItemCreate";
 import AdminItemProfileUpdate from "./Components/Admin/Forms/AdminItemProfileUpdate";
 import ProductList from "./Components/Products/ProductList";
+import ProductDetails from "./Components/Products/ProductDetails";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -157,6 +158,8 @@ const App = () => {
           ></Route>
 
           <Route path="/ProductList" element={<ProductList />}></Route>
+
+          <Route path="/itemDetails/:id" element={<ProductDetails />}></Route>
 
           <Route path="/About" element={<AboutUs />}></Route>
           <Route path="/Privacy" element={<Privacy />}></Route>
