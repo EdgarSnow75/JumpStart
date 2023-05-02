@@ -59,9 +59,8 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="m-4">
-        <h2 className="text-3xl font-bold">Products Featured</h2>
-        ~<ProductList />
+      <div className="mb-6 mt-8">
+        <ProductList />
       </div>
     </div>
   );
