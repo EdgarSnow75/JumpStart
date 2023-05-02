@@ -69,16 +69,19 @@ const ProductList = (props) => {
                 />
               </figure>
               <div className="card-body p-0 px-4">
+                <div className="card-actions justify-start">
+                  <div className="text-3xl text-secondary my-2">
+                    $ {item.itemPrice}
+                  </div>
+                </div>
                 <h2 className="card-title">
                   {item.itemName}
                   <div className="badge badge-secondary">NEW</div>
                 </h2>
+
                 <p>{item.itemDesc}</p>
                 <div className="card-actions justify-end">
                   <div className="badge badge-outline">{item.itemCategory}</div>
-                  <div className="badge badge-secondary text-xl">
-                    $ {item.itemPrice}
-                  </div>
                 </div>
                 <div className="card-actions justify-center mt-4">
                   <PrimaryButton>Buy Now</PrimaryButton>
