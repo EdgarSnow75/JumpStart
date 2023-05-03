@@ -27,6 +27,17 @@ const AdminStoreInventory = () => {
       console.log(response);
     }
   };
+
+  const handleRestock = async (itemId) => {
+    const storeId = id;
+    try {
+      const response = await StoreService.restockItem(storeId, itemId);
+      console.log(response);
+      // handle success
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // const inputChangeHandler = (event) => {
   //   const target = event.target;
   //   const name = target.name;
@@ -67,11 +78,63 @@ const AdminStoreInventory = () => {
         </h2>
       </div>
       <div className="mb-4">
-        <h2 className="text-center text-4xl text-warning">
-          Items in need of restocking
+        <h2 className="text-center text-4xl text-warning my-6">
+          Items in need of restocking:
         </h2>
+        <table className="table table-compact w-full shadow-lg whitespace-pre-wrap">
+          <thead>
+            <tr>
+              <th className="z-0">Item ID</th>
+              <th>Item Name</th>
+              <th>Item Category</th>
+              <th>Item Price</th>
+              <th>Item Stock</th>
+              <th>Item Restock Count</th>
+              <th>Item Restock Status</th>
+              <th>Last Restocked</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.inventory
+              .filter((item) => item.restockStatus)
+              .map((item) => (
+                <tr key={item._id} className="hover">
+                  <th className="z-0">{item._id}</th>
+                  <td className="whitespace-pre-wrap">{item.itemName}</td>
+                  <td>{item.itemCategory}</td>
+                  <td>$ {item.itemPrice}</td>
+                  <td>{item.itemStock}</td>
+                  <td>{item.itemRestockCount}</td>
+                  <td>
+                    {item.restockStatus
+                      ? "Need to Restock"
+                      : "No Need to Restock"}
+                  </td>
+                  <td>{item.updatedAt}</td>
+                  <td>
+                    <div className="flex flex-col items-center">
+                      <button
+                        className="btn btn-secondary w-24 mb-2"
+                        onClick={() => handleRestock(item._id)}
+                      >
+                        Restock
+                      </button>
+                      <button
+                        className="btn btn-error w-24"
+                        onClick={() => handleDeleteItem(item._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center mb-6 mt-40">
+        <h2 className="text-4xl font-bold">Store Inventory</h2>
         <button
           className="btn btn-primary my-6"
           onClick={() => navigate(`/${items._id}/items/newItem`)}
@@ -118,7 +181,7 @@ const AdminStoreInventory = () => {
                   <td>
                     <div className="flex flex-col items-center">
                       <button className="btn btn-secondary w-24 mb-2">
-                        <Link to={`/item/itemUpdate/${item._id}`}>Update</Link>
+                        <Link to={`/items/itemUpdate/${item._id}`}>Update</Link>
                       </button>
                       <button
                         className="btn btn-error w-24"

@@ -136,6 +136,17 @@ class StoreService {
         return response.data;
     }
 
+    async restockItem(storeId, itemId) {
+        const response = await axios.put(
+            `${this.#API_URL}/items/restock/${storeId}/${itemId}`,
+            {
+                withCredentials: true,
+            }
+        );
+
+        return response.data;
+    }
+
     async updateItem(details, itemID) {
         const response = await axios.put(
             `${this.#API_URL}/items/update/${itemID}`,

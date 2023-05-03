@@ -56,7 +56,7 @@ const ProductList = (props) => {
 
   return (
     <div>
-      <div className="grid grid-cols-4 gap-3 gap-y-10 mt-5 ml-12">
+      <div className="grid grid-cols-4 gap-y-10 mt-5 ml-12">
         {visibleItems.length > 0 ? (
           visibleItems.map((item) => (
             <div className="card w-96 bg-base-100 shadow-xl p-0 pb-6 ring-[1px] ring-[rgba(0,0,0,0.2)]">
