@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ToastProps from "../UI/Notification/ToastProps";
-// import AdminDeliveryControl from "./AdminDeliveryControl";
-// import AdminReportControl from "./AdminReportControl";
 import AdminUserControl from "./AdminUserControl";
 import AdminStoreControl from "./AdminStoreControl";
 import AdminInventoryControl from "./AdminInventoryControl";

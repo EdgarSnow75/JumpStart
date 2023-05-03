@@ -27,6 +27,11 @@ import AdminItemCreate from "./Components/Admin/Forms/AdminItemCreate";
 import AdminItemProfileUpdate from "./Components/Admin/Forms/AdminItemProfileUpdate";
 import ProductList from "./Components/Products/ProductList";
 import ProductDetails from "./Components/Products/ProductDetails";
+import KitchenFullList from "./Components/Products/Category/FullLists/KitchenFullList";
+import DIYFullList from "./Components/Products/Category/FullLists/DIYFullList";
+import HomeCareFullList from "./Components/Products/Category/FullLists/HomeCareFullList";
+import GiftFullList from "./Components/Products/Category/FullLists/GiftFullList";
+import MostPopularFullList from "./Components/Products/Category/FullLists/MostPopularFullList";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -161,6 +166,17 @@ const App = () => {
 
           <Route path="/itemDetails/:id" element={<ProductDetails />}></Route>
 
+          <Route path="/Category/Kitchen" element={<KitchenFullList />}></Route>
+          <Route path="/Category/DIY" element={<DIYFullList />}></Route>
+          <Route
+            path="/Category/HomeCare"
+            element={<HomeCareFullList />}
+          ></Route>
+          <Route path="/Category/Gift" element={<GiftFullList />}></Route>
+          <Route
+            path="/Category/MostPopular"
+            element={<MostPopularFullList />}
+          ></Route>
           <Route path="/About" element={<AboutUs />}></Route>
           <Route path="/Privacy" element={<Privacy />}></Route>
           <Route path="/Return" element={<Return />}></Route>

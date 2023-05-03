@@ -1,12 +1,23 @@
 import DiscountCounter from "./Misc/DiscountCounter";
 import ProductList from "./Products/ProductList";
-import SecondaryButton from "./UI/Buttons/SecondaryButton";
+import KitchenList from "./Products/Category/KitchenList";
 import Hero1 from "images/hero1.jpg";
-import Sale1 from "images/FlashSale.jpg"
-import newArrival from "images/newArrival.jpg"
-import newArrival2 from "images/newArrival2.jpg"
+import Sale1 from "images/FlashSale.jpg";
+import newArrival from "images/newArrival.jpg";
+import newArrival2 from "images/newArrival2.jpg";
+import { useState } from "react";
+import DIYList from "./Products/Category/DIYList";
+import HomeCareList from "./Products/Category/HomeCareList";
+import GiftList from "./Products/Category/GiftList";
+import TrendingList from "./Products/Category/TrendingList";
 
 const Home = () => {
+  const [selectedTab, setSelectedTab] = useState("all");
+
+  const handleTabClick = (tab) => {
+    setSelectedTab(tab);
+  };
+
   return (
     <div className="pb-2 px-6">
       <div className="flex flex-col items-center mt-8">
@@ -32,10 +43,7 @@ const Home = () => {
           </div>
         </div>
         <div id="slide2" className="carousel-item relative w-full">
-          <img
-            src={Sale1}
-            className="w-full"
-          />
+          <img src={Sale1} className="w-full" />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href="#slide1" className="btn btn-secondary btn-circle">
               ❮
@@ -46,10 +54,7 @@ const Home = () => {
           </div>
         </div>
         <div id="slide3" className="carousel-item relative w-full">
-          <img
-            src={newArrival}
-            className="w-full"
-          />
+          <img src={newArrival} className="w-full" />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href="#slide2" className="btn btn-secondary btn-circle">
               ❮
@@ -60,10 +65,7 @@ const Home = () => {
           </div>
         </div>
         <div id="slide4" className="carousel-item relative w-full">
-          <img
-            src={newArrival2}
-            className="w-full"
-          />
+          <img src={newArrival2} className="w-full" />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href="#slide3" className="btn btn-secondary btn-circle">
               ❮
@@ -78,18 +80,56 @@ const Home = () => {
         <div>
           <h2 className="font-bold text-4xl text-center">Product List</h2>
         </div>
-        <div className="flex flex-row justify-center">
+        <div className="flex flex-row justify-center my-4">
           <div className="tabs tabs-boxed">
-            <a className="tab">All</a>
-            <a className="tab tab-active">Featured</a>
-            <a className="tab tab-active">Trending</a>
-            <a className="tab">DIY</a>
-            <a className="tab">Gift</a>
-            <a className="tab">Home Care</a>
-            <a className="tab">Kitchen</a>
+            <a
+              className={`tab ${selectedTab === "all" ? "tab-active" : ""}`}
+              onClick={() => handleTabClick("all")}
+            >
+              All
+            </a>
+            <a
+              className={`tab ${
+                selectedTab === "trending" ? "tab-active" : ""
+              }`}
+              onClick={() => handleTabClick("trending")}
+            >
+              Trending
+            </a>
+            <a
+              className={`tab ${selectedTab === "diy" ? "tab-active" : ""}`}
+              onClick={() => handleTabClick("diy")}
+            >
+              DIY
+            </a>
+            <a
+              className={`tab ${selectedTab === "gift" ? "tab-active" : ""}`}
+              onClick={() => handleTabClick("gift")}
+            >
+              Gift
+            </a>
+            <a
+              className={`tab ${
+                selectedTab === "home-care" ? "tab-active" : ""
+              }`}
+              onClick={() => handleTabClick("home-care")}
+            >
+              Home Care
+            </a>
+            <a
+              className={`tab ${selectedTab === "kitchen" ? "tab-active" : ""}`}
+              onClick={() => handleTabClick("kitchen")}
+            >
+              Kitchen
+            </a>
           </div>
         </div>
-        <ProductList />
+        {selectedTab === "all" && <ProductList />}
+        {selectedTab === "kitchen" && <KitchenList />}
+        {selectedTab === "diy" && <DIYList />}
+        {selectedTab === "gift" && <GiftList />}
+        {selectedTab === "home-care" && <HomeCareList />}
+        {selectedTab === "trending" && <TrendingList />}
       </div>
     </div>
   );

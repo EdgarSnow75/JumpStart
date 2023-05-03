@@ -16,7 +16,7 @@ class StoreService {
 
     async getStore(storeID) {
         const response = await axios.get(
-            `${this.#API_URL}/${storeID}`,
+            `${this.#API_URL}/stores/${storeID}`,
             {
                 withCredentials: true,
             }

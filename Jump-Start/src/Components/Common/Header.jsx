@@ -76,33 +76,43 @@ const Header = (props) => {
             </a>
             <ul className="p-2 bg-base-100 z-0 ring-1 ring-[rgba(0,0,0,0.2)]">
               <li>
-                <a className="bg-secondary hover:bg-secondary-focus mb-2">
+                <a
+                  className="bg-secondary hover:bg-secondary-focus mb-2 flex flex-row justify-center"
+                  onClick={() => navigate("/Category/MostPopular")}
+                >
                   Most Popular
                 </a>
               </li>
               <li>
-                <a className="bg-secondary hover:bg-secondary-focus mb-2">
-                  Frozen Food
+                <a
+                  className="bg-secondary hover:bg-secondary-focus mb-2 flex flex-row justify-center"
+                  onClick={() => navigate("/Category/Kitchen")}
+                >
+                  Kitchen
                 </a>
               </li>
               <li>
-                <a className="bg-secondary hover:bg-secondary-focus mb-2">
-                  Dairy Products
+                <a
+                  className="bg-secondary hover:bg-secondary-focus mb-2 flex flex-row justify-center"
+                  onClick={() => navigate("/Category/DIY")}
+                >
+                  DIY
                 </a>
               </li>
               <li>
-                <a className="bg-secondary hover:bg-secondary-focus mb-2">
-                  Kitchenware
+                <a
+                  className="bg-secondary hover:bg-secondary-focus mb-2 flex flex-row justify-center"
+                  onClick={() => navigate("/Category/HomeCare")}
+                >
+                  Home Care
                 </a>
               </li>
               <li>
-                <a className="bg-secondary hover:bg-secondary-focus mb-2">
-                  Beverages
-                </a>
-              </li>
-              <li>
-                <a className="bg-secondary hover:bg-secondary-focus mb-2">
-                  Toys
+                <a
+                  className="bg-secondary hover:bg-secondary-focus mb-2 flex flex-row justify-center"
+                  onClick={() => navigate("/Category/Gift")}
+                >
+                  Gift
                 </a>
               </li>
             </ul>
