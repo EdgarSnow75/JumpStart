@@ -34,8 +34,8 @@ const ProductDetails = () => {
         <div className="flex flex-col gap-3">
           <p className="text-gray-500">
             {"Home/"}
-            {<Link to="Itemt">product</Link>}
-            {`/$Namee}`}
+            {<Link to="/ProductList">product</Link>}
+            {`${item.itemName}`}
           </p>
           <h2 className="text-4xl">{item.itemName}</h2>
           <span className="font-semibold">
