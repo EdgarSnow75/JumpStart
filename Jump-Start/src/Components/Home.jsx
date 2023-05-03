@@ -2,6 +2,10 @@ import DiscountCounter from "./Misc/DiscountCounter";
 import ProductList from "./Products/ProductList";
 import SecondaryButton from "./UI/Buttons/SecondaryButton";
 import Hero1 from "images/hero1.jpg";
+import Sale1 from "images/FlashSale.jpg"
+import newArrival from "images/newArrival.jpg"
+import newArrival2 from "images/newArrival2.jpg"
+
 const Home = () => {
   return (
     <div className="pb-2 px-6">
@@ -29,7 +33,7 @@ const Home = () => {
         </div>
         <div id="slide2" className="carousel-item relative w-full">
           <img
-            src="/images/stock/photo-1609621838510-5ad474b7d25d.jpg"
+            src={Sale1}
             className="w-full"
           />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
@@ -43,7 +47,7 @@ const Home = () => {
         </div>
         <div id="slide3" className="carousel-item relative w-full">
           <img
-            src="/images/stock/photo-1414694762283-acccc27bca85.jpg"
+            src={newArrival}
             className="w-full"
           />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
@@ -57,7 +61,7 @@ const Home = () => {
         </div>
         <div id="slide4" className="carousel-item relative w-full">
           <img
-            src="/images/stock/photo-1665553365602-b2fb8e5d1707.jpg"
+            src={newArrival2}
             className="w-full"
           />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
