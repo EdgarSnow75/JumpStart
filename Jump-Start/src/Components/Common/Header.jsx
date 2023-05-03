@@ -52,7 +52,7 @@ const Header = (props) => {
         <input
           type="text"
           placeholder="Search"
-          className="input text-black w-[30rem] focus:ring-1 ring-secondary"
+          className="input text-black w-[15rem] focus:ring-1 ring-secondary"
         />
       </div>
       <SecondaryButton>Search</SecondaryButton>
