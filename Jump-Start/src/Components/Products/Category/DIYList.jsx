@@ -1,10 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import StoreService from "../../services/StoreService";
+import StoreService from "../../../services/StoreService";
 import { useEffect, useState } from "react";
-import SingleProduct from "./SingleProduct";
+import SingleProduct from "../SingleProduct";
 
-const ProductList = (props) => {
-  const navigate = useNavigate();
+const DIYList = (props) => {
   const [items, setItems] = useState([]);
   const [visibleItems, setVisibleItems] = useState([]);
 
@@ -26,7 +24,6 @@ const ProductList = (props) => {
       console.error(error);
     }
   };
-
   useEffect(() => {
     viewItems();
   }, []);
@@ -56,9 +53,9 @@ const ProductList = (props) => {
     <div>
       <div className="grid grid-cols-4 gap-y-10 mt-5 ml-12">
         {visibleItems.length > 0 ? (
-          visibleItems.map((item) => (
-            <SingleProduct key={item._id} item={item} />
-          ))
+          visibleItems
+            .filter((item) => item.itemCategory === "DIY")
+            .map((item) => <SingleProduct key={item._id} item={item} />)
         ) : (
           <div>
             <h3 className="text-lg text-center">
@@ -71,4 +68,4 @@ const ProductList = (props) => {
   );
 };
 
-export default ProductList;
+export default DIYList;

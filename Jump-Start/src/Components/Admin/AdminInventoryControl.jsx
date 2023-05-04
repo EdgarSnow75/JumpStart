@@ -19,8 +19,16 @@ const AdminInventoryControl = () => {
     try {
       const items = await StoreService.getItems();
 
-      setItems(items);
-      console.log(items);
+      // Fetch the store name for each item
+      const updatedItems = await Promise.all(
+        items.map(async (item) => {
+          const store = await StoreService.getStore(item.storeID);
+          return { ...item, storeName: store.storeName };
+        })
+      );
+
+      setItems(updatedItems);
+      console.log(updatedItems);
     } catch (error) {
       console.error(error);
     }
@@ -52,7 +60,7 @@ const AdminInventoryControl = () => {
             <thead>
               <tr>
                 <th className="z-0">Item ID</th>
-                <th>Store ID</th>
+                <th>Store Name</th>
                 <th>Item Name</th>
                 <th>Item Image</th>
                 <th>Item Description</th>
@@ -69,7 +77,7 @@ const AdminInventoryControl = () => {
               {items.map((item) => (
                 <tr key={item._id} className="hover">
                   <th className="z-0">{item._id}</th>
-                  <td>{item.storeID}</td>
+                  <td>{item.storeName}</td>
                   <td className="whitespace-pre-wrap">{item.itemName}</td>
                   <td>
                     <img src={item.itemImg} />
@@ -106,7 +114,7 @@ const AdminInventoryControl = () => {
             <tfoot>
               <tr>
                 <th>Item ID</th>
-                <th>Store ID</th>
+                <th>Store Name</th>
                 <th>Item Name</th>
                 <th>Item Image</th>
                 <th>Item Description</th>
