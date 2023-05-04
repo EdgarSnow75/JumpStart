@@ -7,7 +7,7 @@ const AboutUs = () =>{
     return(
         <div>
           
-            <div className="hero w-screen" style={{ backgroundImage: `url(${History})`,}}>
+            <div className="hero w-screen mt-3" style={{ backgroundImage: `url(${History})`,}}>
                 <div className="hero-overlay bg-opacity-60"></div>
                     <div className="hero-content text-center text-neutral-content">
                         <div className="max-w-md">
@@ -31,7 +31,7 @@ const AboutUs = () =>{
 
             <br/>
 
-            <div className="hero  w-screen bg-orange-50 ">
+            <div className="hero  w-screen bg-orange-50 mb-5">
                 <div className="hero-content flex-col lg:flex-row">
                     
                     <div>
