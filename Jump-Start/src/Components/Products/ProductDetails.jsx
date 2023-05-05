@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import StoreService from "../../services/StoreService";
+import PrimaryButton from "../UI/Buttons/PrimaryButton";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -26,9 +27,9 @@ const ProductDetails = () => {
   }, [id]);
 
   return (
-    <section className="flex flex-col gap-16 py-10 bg-gray-100">
-      <div className="container mx-auto flex justify-around  items-center w-[100]">
-        <div className="w-100 flex justify-end pe-10">
+    <section className="flex flex-col gap-16 py-10 bg-white ">
+      <div className="container mx-auto flex justify-around  items-center w-[100] p-4 ring-[1px] ring-[rgba(0,0,0,0.2)]">
+        <div className="w-full flex justify-end pe-10">
           <img src={item.itemImg}  alt="Image" className="w-full select-none" />
         </div>
         
@@ -55,12 +56,12 @@ const ProductDetails = () => {
               Remaing Stock: {item.itemStock}
             </span>
           </h3>
-          <button
+          <PrimaryButton
             onClick={() => console.log("")}
             className="bg-primary text-sky-50 px-2 py-1 mt-4 w-60 "
           >
             Add to cart
-          </button>
+          </PrimaryButton>
         </div>
       </div>
       <Link
