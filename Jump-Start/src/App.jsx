@@ -177,7 +177,8 @@ const App = () => {
             path="/Category/MostPopular"
             element={<MostPopularFullList />}
           ></Route>
-          <Route path="/About" element={<AboutUs />}></Route>
+          <Route path="/AboutUs" element={<AboutUs />}></Route>
+          <Route path="/ContactUs" element={<Contact />}></Route>
           <Route path="/Privacy" element={<Privacy />}></Route>
           <Route path="/Return" element={<Return />}></Route>
         </Routes>

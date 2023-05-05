@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import CustomerService from "../../services/CustomerService";
 import SecondaryButton from "../UI/Buttons/SecondaryButton";
 import ToastProps from "../UI/Notification/ToastProps";
+import { useEffect } from "react";
 
 const UserSignUp = (props) => {
   const { isLoggedIn, userType, setToasts } = props;
