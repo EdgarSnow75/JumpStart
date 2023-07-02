@@ -23,6 +23,6 @@ Other notable features include:
 ## Technologies Used
 The following are the languages, frameworks, programs and tools used to develop JumpStart Online.
 + **Prototyping** - Figma
-'Figma is used to design the wireframes and a low-fidelity prototype of the website. Figma is a lightweight web app for designing and collabrating online seamlessly without the need to download a desktop client. '
+> Figma is used to design the wireframes and a low-fidelity prototype of the website. Figma is a lightweight web app for designing and collabrating online seamlessly without the need to download a desktop client.
 + **Frontend** - React.js with Vite
-'React.js is a good component-based JavaScript Library that I am pretty familiar with and currently learning so I chose this as my frontend. Together with Vite, it runs pretty fast.'
+> React.js is a good component-based JavaScript Library that I am pretty familiar with and currently learning so I chose this as my frontend. Together with Vite, it runs pretty fast.
