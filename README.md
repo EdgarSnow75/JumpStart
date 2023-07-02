@@ -21,7 +21,7 @@ Other notable features include:
 ---------------------
 1. [Technologies Used](#Technologies-Used)
 
-## Technologies Used {#Technologies-Used}
+## Technologies Used {#technologies-used}
 The following are the languages, frameworks, programs and tools used to develop JumpStart Online.
 + **Prototyping** - Figma
 > Figma is used to design the wireframes and a low-fidelity prototype of the website. Figma is a lightweight web app for designing and collabrating online seamlessly without the need to download a desktop client.
