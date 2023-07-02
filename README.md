@@ -37,8 +37,8 @@ The following are the languages, frameworks, programs and tools used to develop 
 You can see how the project looks like below and a demo video showcasing the project will soon be added!
 
 - Home Page
-* Upper - Showcasing Header, Hero Carousal and Buttons
+  * Upper - Showcasing Header, Hero Carousal and Buttons
 ![JS_Home_1](https://github.com/EdgarSnow75/JumpStart/assets/119287727/df411240-29da-46d9-8d7d-70afbafa718a)
 
-* Middle - Showcasing Project List
+  * Middle - Showcasing Project List
 ![JS_Home_2 1](https://github.com/EdgarSnow75/JumpStart/assets/119287727/c24e0a38-d684-4731-bf00-448c82ae6241)
