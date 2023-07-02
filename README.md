@@ -20,7 +20,7 @@ Other notable features include:
 ## Table of Contents
 ---------------------
 1. [Technologies Used](#technologies-used)
-2. [Screenshots / Demo](#screenshots-&-demo)
+2. [Screenshots & Demo](#screenshots-&-demo)
 
 ## Technologies Used 
 The following are the languages, frameworks, programs and tools used to develop JumpStart Online.
