@@ -11,8 +11,10 @@ import HomeCareList from "./Products/Category/HomeCareList";
 import GiftList from "./Products/Category/GiftList";
 import TrendingList from "./Products/Category/TrendingList";
 
-const Home = () => {
+const Home = (props) => {
   const [selectedTab, setSelectedTab] = useState("all");
+
+  const { userDetails, cartDetails, setCartDetails } = props;
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
@@ -25,12 +27,12 @@ const Home = () => {
           Time Left Till Promotion Ends:
         </h2>
         <DiscountCounter />
-        <h2 className="text-3xl font-bold text-secondary my-2">
-          Promotional Items:
+        <h2 className="text-6xl font-bold underline underline-offset-4 decoration-pink-500 my-4 hover:decoration-secondary hover:cursor-default">
+          Promotional Items
         </h2>
       </div>
 
-      <div className="carousel w-full h-[30rem]">
+      <div className="carousel w-full h-[30rem] rounded-md ring-[0.5px] shadow">
         <div id="slide1" className="carousel-item relative w-full">
           <img src={Hero1} className="w-full" />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
@@ -124,12 +126,28 @@ const Home = () => {
             </a>
           </div>
         </div>
-        {selectedTab === "all" && <ProductList />}
-        {selectedTab === "kitchen" && <KitchenList />}
-        {selectedTab === "diy" && <DIYList />}
-        {selectedTab === "gift" && <GiftList />}
-        {selectedTab === "home-care" && <HomeCareList />}
-        {selectedTab === "trending" && <TrendingList />}
+        {selectedTab === "all" && (
+          <ProductList
+            userDetails={userDetails}
+            cartDetails={cartDetails}
+            setCartDetails={setCartDetails}
+          />
+        )}
+        {selectedTab === "kitchen" && (
+          <KitchenList userDetails={userDetails} cartDetails={cartDetails} />
+        )}
+        {selectedTab === "diy" && (
+          <DIYList userDetails={userDetails} cartDetails={cartDetails} />
+        )}
+        {selectedTab === "gift" && (
+          <GiftList userDetails={userDetails} cartDetails={cartDetails} />
+        )}
+        {selectedTab === "home-care" && (
+          <HomeCareList userDetails={userDetails} cartDetails={cartDetails} />
+        )}
+        {selectedTab === "trending" && (
+          <TrendingList userDetails={userDetails} cartDetails={cartDetails} />
+        )}
       </div>
     </div>
   );

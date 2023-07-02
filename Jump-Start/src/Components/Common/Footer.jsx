@@ -2,7 +2,7 @@ import JumpStart from "/src/Images/HeaderAndFooter/JumpStart.png";
 
 const Footer = () => {
   return (
-    <footer className="footer static bottom-0 w-screen bg-primary text-white justify-center">
+    <footer className="footer w-screen bg-primary text-white justify-center mt-auto">
       <div className="container flex">
         <div className="grid-cols flex-block relative right-52 top-8 ">
           <p className="w-full">Privacy Notice</p>

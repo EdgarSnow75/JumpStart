@@ -2,9 +2,18 @@ import { useNavigate } from "react-router-dom";
 import StarRating from "../Misc/StarRating";
 import PrimaryButton from "../UI/Buttons/PrimaryButton";
 import SecondaryButton from "../UI/Buttons/SecondaryButton";
+import CartService from "../../services/CartService";
 
-const SingleProduct = ({ item }) => {
+const SingleProduct = (props) => {
+  const { item, cartDetails, setCartDetails } = props;
   const navigate = useNavigate();
+
+  const onClickItemIncrease = async (itemID) => {
+    console.log("Single Product details: ", cartDetails);
+    await CartService.addItemToCart(cartDetails._id, itemID);
+    const updatedCartDetails = await CartService.getCart(cartDetails._id);
+    setCartDetails(updatedCartDetails);
+  };
 
   return (
     <div className="card w-96 bg-base-100 shadow-xl p-0 pb-6 ring-[1px] ring-[rgba(0,0,0,0.2)]">
@@ -44,7 +53,9 @@ const SingleProduct = ({ item }) => {
           >
             View Details
           </PrimaryButton>
-          <SecondaryButton>Buy Now</SecondaryButton>
+          <SecondaryButton onClick={() => onClickItemIncrease(item._id)}>
+            Buy Now
+          </SecondaryButton>
         </div>
       </div>
     </div>

@@ -32,22 +32,61 @@ import DIYFullList from "./Components/Products/Category/FullLists/DIYFullList";
 import HomeCareFullList from "./Components/Products/Category/FullLists/HomeCareFullList";
 import GiftFullList from "./Components/Products/Category/FullLists/GiftFullList";
 import MostPopularFullList from "./Components/Products/Category/FullLists/MostPopularFullList";
+import CartService from "./services/CartService";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faMinus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faTrashCan, faMinus, faPlus);
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userType, setUserType] = useState("");
   const [userDetails, setUserDetails] = useState({});
   const [toasts, setToasts] = useState([]);
+  const [cartDetails, setCartDetails] = useState({});
 
   useEffect(() => {
-    UserService.getUserDetails().then((response) => {
-      if (response) {
-        setIsLoggedIn(true);
-        setUserDetails(response);
-        setUserType(response.userType);
+    const fetchUserData = async () => {
+      try {
+        const response = await UserService.getUserDetails();
+        if (response) {
+          setIsLoggedIn(true);
+          setUserDetails(response);
+          setUserType(response.userType);
+        }
+      } catch (error) {
+        // Handle any errors that occur during the asynchronous operations
+        console.error(error);
       }
-    });
+    };
+
+    fetchUserData();
   }, []);
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const response = await CartService.getCartByCustomer(userDetails._id);
+        if (response) {
+          const fetchedCart = await CartService.getCart(response._id);
+          setCartDetails(fetchedCart);
+          console.log("Cart already exists");
+        } else {
+          const cart = await CartService.createCart(userDetails._id);
+          console.log("Cart created");
+          const fetchedCart = await CartService.getCart(cart.cartData._id);
+          setCartDetails(fetchedCart);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCart();
+  }, [userDetails, setCartDetails]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -55,6 +94,9 @@ const App = () => {
       setUserDetails({});
     }
   }, [isLoggedIn]);
+
+  console.log("Cart Details:", cartDetails);
+  console.log("User Details:", userDetails);
 
   return (
     <div className="App">
@@ -65,11 +107,24 @@ const App = () => {
           userDetails={userDetails}
           userType={userType}
           setToasts={setToasts}
+          cartDetails={cartDetails}
+          setCartDetails={setCartDetails}
         />
 
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-
+          <Route
+            path="/"
+            element={
+              <Home
+                userDetails={userDetails}
+                isLoggedIn={isLoggedIn}
+                userType={userType}
+                setToasts={setToasts}
+                cartDetails={cartDetails}
+                setCartDetails={setCartDetails}
+              />
+            }
+          ></Route>
           <Route
             path="/admin/adminDashboard"
             element={
@@ -78,6 +133,8 @@ const App = () => {
                 isLoggedIn={isLoggedIn}
                 userType={userType}
                 setToasts={setToasts}
+                cartDetails={cartDetails}
+                setCartDetails={setCartDetails}
               />
             }
           ></Route>
@@ -85,7 +142,6 @@ const App = () => {
             path="/admin/customerUpdate/:id"
             element={<AdminCustomerProfileUpdate setToasts={setToasts} />}
           ></Route>
-
           <Route
             path="/admin/customerCreate"
             element={<AdminCustomerCreate setToasts={setToasts} />}
@@ -125,7 +181,6 @@ const App = () => {
             path="/item/itemUpdate/:id"
             element={<AdminItemProfileUpdate setToasts={setToasts} />}
           ></Route>
-
           <Route
             path="/user/login"
             element={
@@ -161,21 +216,69 @@ const App = () => {
               />
             }
           ></Route>
-
-          <Route path="/ProductList" element={<ProductList />}></Route>
-
-          <Route path="/itemDetails/:id" element={<ProductDetails />}></Route>
-
-          <Route path="/Category/Kitchen" element={<KitchenFullList />}></Route>
-          <Route path="/Category/DIY" element={<DIYFullList />}></Route>
+          <Route
+            path="/ProductList"
+            element={
+              <ProductList
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+              />
+            }
+          />
+          <Route
+            path="/itemDetails/:id"
+            element={
+              <ProductDetails
+                userDetails={userDetails}
+                cartDetails={cartDetails}
+                setCartDetails={setCartDetails}
+              />
+            }
+          ></Route>
+          <Route
+            path="/Category/Kitchen"
+            element={
+              <KitchenFullList
+                cartDetails={cartDetails}
+                setCartDetails={setCartDetails}
+              />
+            }
+          ></Route>
+          <Route
+            path="/Category/DIY"
+            element={
+              <DIYFullList
+                cartDetails={cartDetails}
+                setCartDetails={setCartDetails}
+              />
+            }
+          ></Route>
           <Route
             path="/Category/HomeCare"
-            element={<HomeCareFullList />}
+            element={
+              <HomeCareFullList
+                cartDetails={cartDetails}
+                setCartDetails={setCartDetails}
+              />
+            }
           ></Route>
-          <Route path="/Category/Gift" element={<GiftFullList />}></Route>
+          <Route
+            path="/Category/Gift"
+            element={
+              <GiftFullList
+                cartDetails={cartDetails}
+                setCartDetails={setCartDetails}
+              />
+            }
+          ></Route>
           <Route
             path="/Category/MostPopular"
-            element={<MostPopularFullList />}
+            element={
+              <MostPopularFullList
+                cartDetails={cartDetails}
+                setCartDetails={setCartDetails}
+              />
+            }
           ></Route>
           <Route path="/AboutUs" element={<AboutUs />}></Route>
           <Route path="/ContactUs" element={<Contact />}></Route>

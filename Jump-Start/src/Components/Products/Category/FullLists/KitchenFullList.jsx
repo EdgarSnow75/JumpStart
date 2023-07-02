@@ -19,6 +19,7 @@ const KitchenFullList = (props) => {
       );
 
       setItems(updatedItems);
+      setVisibleItems(updatedItems.slice(0, 10));
       console.log(updatedItems);
     } catch (error) {
       console.error(error);
@@ -62,9 +63,9 @@ const KitchenFullList = (props) => {
               .filter((item) => item.itemCategory === "Kitchen")
               .map((item) => <SingleProduct key={item._id} item={item} />)
           ) : (
-            <div>
-              <h3 className="text-lg text-center">
-                There are no items to display. Sorry for the inconvience!
+            <div className="col-span-4">
+              <h3 className="text-2xl font-bold text-center">
+                Items are loading! Thanks for your patience!
               </h3>
             </div>
           )}

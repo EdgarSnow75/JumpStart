@@ -50,9 +50,10 @@ const UserLogin = (props) => {
       ]);
     } catch (error) {
       console.log(error);
+      const errorMessage = "Wrong Login Credentials"; // Extract the error message
       setToasts((toasts) => [
         ...toasts,
-        new ToastProps({ type: "error", message: err }),
+        new ToastProps({ type: "error", message: errorMessage }), // Pass the error message
       ]);
       return;
     }
@@ -64,9 +65,10 @@ const UserLogin = (props) => {
       setIsLoggedIn(true);
     } catch (error) {
       console.log(error);
+      const errorMessage = error.message || "An error occurred"; // Extract the error message
       setToasts((toasts) => [
         ...toasts,
-        new ToastProps({ type: "error", message: err }),
+        new ToastProps({ type: "error", message: errorMessage }), // Pass the error message
       ]);
     }
   }

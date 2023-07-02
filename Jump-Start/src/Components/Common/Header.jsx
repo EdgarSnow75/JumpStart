@@ -6,10 +6,22 @@ import ToastProps from "../UI/Notification/ToastProps";
 import { useEffect, useState } from "react";
 import UserService from "../../services/UserService";
 import ProfilePic from "../../images/user.png";
+import StoreService from "../../services/StoreService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CartService from "../../services/CartService";
 
 const Header = (props) => {
-  const { isLoggedIn, setIsLoggedIn, userDetails, userType, setToasts } = props;
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    userDetails,
+    userType,
+    setToasts,
+    cartDetails,
+    setCartDetails,
+  } = props;
   const [profileLink, setProfileLink] = useState("");
+  const [itemDetails, setItemDetails] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,12 +45,79 @@ const Header = (props) => {
     navigate("/user/login");
   };
 
+  useEffect(() => {
+    const fetchItemDetails = async () => {
+      const itemDetailsPromises = cartDetails.items.map(async (item) => {
+        const itemDetails = await StoreService.getItem(item.item);
+        return {
+          ...itemDetails,
+          quantity: item.quantity, // Add quantity to the itemDetails object
+        };
+      });
+
+      const resolvedItemDetails = await Promise.all(itemDetailsPromises);
+      setItemDetails(resolvedItemDetails);
+    };
+    fetchItemDetails();
+  }, [cartDetails.items]);
+
   const linkHandler = (path) => {
     navigate(path);
   };
 
+  const onClickItemIncrease = async (itemID) => {
+    await CartService.addItemToCart(cartDetails._id, itemID);
+    const updatedCartDetails = await CartService.getCart(cartDetails._id);
+    setCartDetails(updatedCartDetails);
+
+    const updatedItemDetails = await Promise.all(
+      updatedCartDetails.items.map(async (item) => {
+        const itemDetails = await StoreService.getItem(item.item);
+        return {
+          ...itemDetails,
+          quantity: item.quantity,
+        };
+      })
+    );
+    setItemDetails(updatedItemDetails);
+  };
+
+  const onClickItemDelete = async (itemID) => {
+    await CartService.deleteItemFromCart(cartDetails._id, itemID);
+    const updatedCartDetails = await CartService.getCart(cartDetails._id);
+    setCartDetails(updatedCartDetails);
+
+    const updatedItemDetails = await Promise.all(
+      updatedCartDetails.items.map(async (item) => {
+        const itemDetails = await StoreService.getItem(item.item);
+        return {
+          ...itemDetails,
+          quantity: item.quantity,
+        };
+      })
+    );
+    setItemDetails(updatedItemDetails);
+  };
+
+  const onClickItemDecrease = async (itemID) => {
+    await CartService.decreaseItemFromCart(cartDetails._id, itemID);
+    const updatedCartDetails = await CartService.getCart(cartDetails._id);
+    setCartDetails(updatedCartDetails);
+
+    const updatedItemDetails = await Promise.all(
+      updatedCartDetails.items.map(async (item) => {
+        const itemDetails = await StoreService.getItem(item.item);
+        return {
+          ...itemDetails,
+          quantity: item.quantity,
+        };
+      })
+    );
+    setItemDetails(updatedItemDetails);
+  };
+
   return (
-    <div className="navbar w-full bg-primary px-4 sticky top-0 z-20 text-white">
+    <div className="navbar w-screen bg-primary px-4 sticky top-0 z-20 text-white">
       <div className="flex-1">
         <a
           className="flex items-center cursor-pointer hover:text-primary normal-case w-40 mt-4"
@@ -48,14 +127,14 @@ const Header = (props) => {
         </a>
       </div>
 
-      <div className="form-control start-2 m-2 ">
+      <div className="form-control start-2 m-2 flex flex-row mr-10">
         <input
           type="text"
           placeholder="Search"
-          className="input text-black w-[15rem] focus:ring-1 ring-secondary"
+          className="input text-black w-[18rem] focus:ring-1 ring-secondary mr-2"
         />
+        <SecondaryButton>Search</SecondaryButton>
       </div>
-      <SecondaryButton>Search</SecondaryButton>
       <div className="flex-none">
         <ul className="menu menu-horizontal p-1">
           <li>
@@ -126,44 +205,8 @@ const Header = (props) => {
         </ul>
       </div>
       <div className="flex-none">
-        <div className="dropdown dropdown-end">
-          <label tabIndex={0} className="btn btn-ghost btn-circle">
-            <div className="indicator">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-              <span className="badge badge-sm indicator-item">8</span>
-            </div>
-          </label>
-
-          <div
-            tabIndex={0}
-            className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow ring-1 ring-[rgba(0,0,0,0.2)] top-8 right-11"
-          >
-            <div className="card-body">
-              <span className="font-bold text-lg">8 Items</span>
-              <span className="text-info">Subtotal: $999</span>
-              <div className="card-actions">
-                <button className="btn btn-secondary btn-block">
-                  View cart
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
         {!isLoggedIn ? (
-          <div>
+          <div className="pr-2">
             <SecondaryButtonOutline
               className="mx-2"
               onClick={() => linkHandler("/user/login")}
@@ -175,51 +218,157 @@ const Header = (props) => {
             </SecondaryButton>
           </div>
         ) : (
-          <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
-                <img src={ProfilePic} />
+          <div className="flex flex-row h-16 ml-10 mr-24">
+            <div className="mr-4">
+              <div className="dropdown mr-2 pt-2">
+                <label tabIndex={0} className="btn btn-ghost btn-circle">
+                  <div className="indicator">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                      />
+                    </svg>
+                    <span className="badge badge-sm indicator-item">
+                      {cartDetails.totalItems}
+                    </span>
+                  </div>
+                </label>
+
+                <div
+                  tabIndex={0}
+                  className="dropdown-content menu w-[34rem] bg-base-100 shadow rounded-box ring-[0.5px] ring-secondary -left-[21rem] top-16"
+                >
+                  <div className="card-body p-2">
+                    {itemDetails.map((item) => (
+                      <div
+                        className="card card-side bg-base-100 shadow-md p-1 ring-[0.2px]"
+                        key={item._id}
+                      >
+                        <figure className="w-36 p-1">
+                          <img
+                            src={item.itemImg}
+                            className="w-[130px] h-[130px] rounded ring-[0.4px] ring-black"
+                            alt="Item Image"
+                          />
+                        </figure>
+                        <div className="card-body text-black px-2">
+                          <h2 className="card-title text-xs">
+                            {item.itemName}
+                          </h2>
+                          <p className="text-secondary font-bold text-xs">
+                            Item Price:
+                            <span className="text-black font-normal ml-2">
+                              ${item.itemPrice}
+                            </span>
+                          </p>
+                          <div className="card-actions justify-between mx-4">
+                            <div className="flex flex-row space-x-2">
+                              <button
+                                onClick={() => onClickItemDecrease(item._id)}
+                              >
+                                <FontAwesomeIcon
+                                  icon="fa-solid fa-minus"
+                                  style={{ color: "#e65000" }}
+                                />
+                              </button>
+                              <div>
+                                <p className="text-black">{item.quantity}</p>
+                              </div>
+
+                              <button
+                                onClick={() => onClickItemIncrease(item._id)}
+                              >
+                                <FontAwesomeIcon
+                                  icon="fa-solid fa-plus"
+                                  style={{ color: "#e65000" }}
+                                />
+                              </button>
+                            </div>
+                            <button onClick={() => onClickItemDelete(item._id)}>
+                              <FontAwesomeIcon
+                                icon="fa-solid fa-trash-can"
+                                style={{ color: "#c1331a" }}
+                                className=""
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <div className="my-2">
+                      <p className="text-secondary text-xl text-bold">
+                        Total Price:
+                        <span className="text-black ml-2">
+                          ${cartDetails.totalCost}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="card-actions">
+                      <button className="btn btn-secondary btn-block">
+                        View cart
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </label>
-            <ul
-              tabIndex={0}
-              className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box"
-            >
-              <li className="pointer-events-none rounded-xl px-4 py-1.5 mb-2 text-white bg-primary drop-shadow-sm">
-                <span className="m-0 p-0">Logged in as:</span>
-                <span className="italic font-bold m-0 p-0">
-                  {userDetails.emailAddress}
-                </span>
-              </li>
-              <li>
-                <a
-                  className="justify-between text-black my-1"
-                  onClick={() => navigate(profileLink)}
+            </div>
+            <div>
+              <div className="dropdown pt-1">
+                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                  <div className="w-10 rounded-full">
+                    <img src={ProfilePic} />
+                  </div>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box -left-20"
                 >
-                  {userType === "admin" ? "Admin dashboard" : "Profile"}
-                </a>
-              </li>
-              {userType === "admin" ? (
-                ""
-              ) : (
-                <li>
-                  <a
-                    className="justify-between text-black my-1"
-                    onClick={() => navigate("/orders")}
-                  >
-                    Orders
-                  </a>
-                </li>
-              )}
-              <li>
-                <a
-                  className="text-white bg-error my-1 hover:bg-red-800"
-                  onClick={handleLogout}
-                >
-                  Log out
-                </a>
-              </li>
-            </ul>
+                  <li className="pointer-events-none rounded-xl px-4 py-1.5 mb-2 text-white bg-primary drop-shadow-sm">
+                    <span className="m-0 p-0">Logged in as:</span>
+                    <span className="italic font-bold m-0 p-0">
+                      {userDetails.emailAddress}
+                    </span>
+                  </li>
+                  <li>
+                    <a
+                      className="justify-between text-black my-1"
+                      onClick={() => navigate(profileLink)}
+                    >
+                      {userType === "admin" ? "Admin dashboard" : "Profile"}
+                    </a>
+                  </li>
+                  {userType === "admin" ? (
+                    ""
+                  ) : (
+                    <li>
+                      <a
+                        className="justify-between text-black my-1"
+                        onClick={() => navigate("/orders")}
+                      >
+                        Orders
+                      </a>
+                    </li>
+                  )}
+                  <li>
+                    <a
+                      className="text-white bg-error my-1 hover:bg-red-800"
+                      onClick={handleLogout}
+                    >
+                      Log out
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         )}
       </div>

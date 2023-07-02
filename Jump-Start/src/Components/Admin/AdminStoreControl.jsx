@@ -75,7 +75,9 @@ const AdminStoreControl = () => {
                       <tbody>
                         {store.inventory.map((item) => (
                           <tr key={item._id}>
-                            <td>{item.itemName}</td>
+                            <td className="whitespace-pre-wrap">
+                              {item.itemName}
+                            </td>
                             <td>{item.itemStock}</td>
                           </tr>
                         ))}

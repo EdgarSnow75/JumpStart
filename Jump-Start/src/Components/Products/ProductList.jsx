@@ -2,8 +2,10 @@ import { useNavigate } from "react-router-dom";
 import StoreService from "../../services/StoreService";
 import { useEffect, useState } from "react";
 import SingleProduct from "./SingleProduct";
+import CartService from "../../services/CartService";
 
 const ProductList = (props) => {
+  const { cartDetails, setCartDetails, userDetails } = props;
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [visibleItems, setVisibleItems] = useState([]);
@@ -19,9 +21,8 @@ const ProductList = (props) => {
           return { ...item, storeName: store.storeName };
         })
       );
-
       setItems(updatedItems);
-      console.log(updatedItems);
+      setVisibleItems(updatedItems.slice(0, 10));
     } catch (error) {
       console.error(error);
     }
@@ -57,12 +58,17 @@ const ProductList = (props) => {
       <div className="grid grid-cols-4 gap-y-10 mt-5 ml-12">
         {visibleItems.length > 0 ? (
           visibleItems.map((item) => (
-            <SingleProduct key={item._id} item={item} />
+            <SingleProduct
+              key={item._id}
+              item={item}
+              cartDetails={cartDetails}
+              setCartDetails={setCartDetails}
+            />
           ))
         ) : (
-          <div>
-            <h3 className="text-lg text-center">
-              There are no items to display. Sorry for the inconvience!
+          <div className="col-span-4">
+            <h3 className="text-2xl font-bold text-center">
+              Items are loading! Thanks for your patience!
             </h3>
           </div>
         )}
