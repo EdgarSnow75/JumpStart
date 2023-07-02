@@ -20,6 +20,7 @@ Other notable features include:
 ## Table of Contents
 ---------------------
 1. [Technologies Used](#technologies-used)
+2. [Screenshots / Demo](#screenshots/demo)
 
 ## Technologies Used 
 The following are the languages, frameworks, programs and tools used to develop JumpStart Online.
@@ -31,3 +32,9 @@ The following are the languages, frameworks, programs and tools used to develop 
 > Since I'm learning JavaScript, I thought it would be cool to have the same code language behind both the frontend and the backend. That is why I chose Node.js for my backend. This was first time using a cloud-based database so I chose the one that seemed to be used the most, MongoDB Atlas. Holding them together is the Mongoose library.
 + **Styling** - TailwindCSS, DaisyUI and MaterialUI plugins.
 > Ever since switching to TailwindCSS from Bootstrap, I find the former more interesting and time-efficient than the latter so I have been sticking to it. DaisyUI is a great plugin with customizatable themes and MAterualUI is used for its toasts for site notification.
+
+## Screenshots/Demo
+You can see how the project looks like below and a demo video showcasing the project will soon be added!
+
+- Home Page
+![JS_Home_1](https://github.com/EdgarSnow75/JumpStart/assets/119287727/df411240-29da-46d9-8d7d-70afbafa718a)
