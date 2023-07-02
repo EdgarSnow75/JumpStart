@@ -20,7 +20,7 @@ Other notable features include:
 ## Table of Contents
 ---------------------
 1. [Technologies Used](#technologies-used)
-2. [Screenshots & Demo](#screenshots-&-demo)
+2. [Screenshots And Demo](#screenshots-and-demo)
 
 ## Technologies Used 
 The following are the languages, frameworks, programs and tools used to develop JumpStart Online.
@@ -33,7 +33,7 @@ The following are the languages, frameworks, programs and tools used to develop 
 + **Styling** - TailwindCSS, DaisyUI and MaterialUI plugins.
 > Ever since switching to TailwindCSS from Bootstrap, I find the former more interesting and time-efficient than the latter so I have been sticking to it. DaisyUI is a great plugin with customizatable themes and MAterualUI is used for its toasts for site notification.
 
-## Screenshots & Demo
+## Screenshots And Demo
 You can see how the project looks like below and a demo video showcasing the project will soon be added!
 
 - Home Page
