@@ -20,7 +20,7 @@ const Footer = () => {
               <a>Become a Distributor</a>
             </li>
             <li>
-              <a>Return Policy</a>
+              <a href="/Return">Return Policy</a>
             </li>
             <li>
               <a href="/AboutUs">About Us</a>
