@@ -64,7 +64,7 @@ You can see how the project looks like below and a demo video showcasing the pro
 - Login Page
   
   * Form
-    ![JS_Login_1](https://github.com/EdgarSnow75/JumpStart/assets/119287727/a3b96b56-7a5d-4de3-8ab4-d4ef069e5c88)
+  * ![JS_Login_1](https://github.com/EdgarSnow75/JumpStart/assets/119287727/a3b96b56-7a5d-4de3-8ab4-d4ef069e5c88)
     
   * Login Form Validation Showcase
-    ![JS_Login_Error](https://github.com/EdgarSnow75/JumpStart/assets/119287727/5b62cce8-18fa-4188-87c3-b8e253ca09f4)
+  * ![JS_Login_Error](https://github.com/EdgarSnow75/JumpStart/assets/119287727/5b62cce8-18fa-4188-87c3-b8e253ca09f4)
