@@ -57,8 +57,6 @@ You can see how the project looks like below and a demo video showcasing the pro
   * Form Validation Showcase
   ![JS_Register_Error](https://github.com/EdgarSnow75/JumpStart/assets/119287727/a35ecd15-32c5-49c5-a730-634eb8161318)
 
-
-
   * Valid Form
   ![JS_Register_Success](https://github.com/EdgarSnow75/JumpStart/assets/119287727/3822fb39-99e4-4a00-b1da-1cde90407fc0)
 
