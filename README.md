@@ -40,5 +40,24 @@ You can see how the project looks like below and a demo video showcasing the pro
   * Upper - Showcasing Header, Hero Carousal and Buttons
 ![JS_Home_1](https://github.com/EdgarSnow75/JumpStart/assets/119287727/df411240-29da-46d9-8d7d-70afbafa718a)
 
+
   * Middle - Showcasing Project List
 ![JS_Home_2 1](https://github.com/EdgarSnow75/JumpStart/assets/119287727/c24e0a38-d684-4731-bf00-448c82ae6241)
+
+  * Lower - Showcasing the Item Card
+  ![JS_Home_2 2](https://github.com/EdgarSnow75/JumpStart/assets/119287727/fda63a5d-1ad9-4081-b71f-d2fab7a819bc)
+
+- Customer Account Register Page
+  * Empty Form
+  ![JS_Register](https://github.com/EdgarSnow75/JumpStart/assets/119287727/17d8b046-de24-4399-991e-fc727b7c1fc7)
+
+  * Form Validation Showcase
+  ![JS_Register_Error](https://github.com/EdgarSnow75/JumpStart/assets/119287727/444e0865-f541-475a-a693-a458f9b2add0)
+
+  * Valid Form
+  ![JS_Register_Success](https://github.com/EdgarSnow75/JumpStart/assets/119287727/55793d84-cccd-4099-b4e8-729a78eda6a0)
+
+
+  
+
+
