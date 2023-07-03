@@ -71,9 +71,9 @@ You can see how the project looks like below and a demo video showcasing the pro
 
 - Item Categories
   
- *Most Popular Items
+ * Most Popular Items
   ![JS_Most_Popular](https://github.com/EdgarSnow75/JumpStart/assets/119287727/3c79633d-5b90-4ae2-b649-30155859ee23)
 
- *Kitchenware 
+ * Kitchenware 
   ![JS_Kitchen](https://github.com/EdgarSnow75/JumpStart/assets/119287727/9b6e4801-3234-4cce-b5d3-8c99f58b6bb6)
 
