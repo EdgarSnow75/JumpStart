@@ -52,10 +52,13 @@ You can see how the project looks like below and a demo video showcasing the pro
 
   * Empty Form
   ![JS_Register](https://github.com/EdgarSnow75/JumpStart/assets/119287727/17d8b046-de24-4399-991e-fc727b7c1fc7)
-* Form Validation Showcase
-  ![JS_Register_Error](https://github.com/EdgarSnow75/JumpStart/assets/119287727/fb47beee-ad89-4494-968a-0e42a868b4d8)
-* Valid Form
-  ![JS_Register_Success](https://github.com/EdgarSnow75/JumpStart/assets/119287727/09ae8659-df89-43a1-ae0f-53f297ce6555)
+
+  * Form Validation Showcase
+  * ![JS_Register_Error](https://github.com/EdgarSnow75/JumpStart/assets/119287727/fb47beee-ad89-4494-968a-0e42a868b4d8)
+ 
+    
+  * Valid Form
+  * ![JS_Register_Success](https://github.com/EdgarSnow75/JumpStart/assets/119287727/09ae8659-df89-43a1-ae0f-53f297ce6555)
 
 
 - Login Page
