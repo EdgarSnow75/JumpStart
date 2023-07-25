@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import SingleProduct from "../SingleProduct";
 
 const TrendingList = (props) => {
+  const { cartDetails, setCartDetails } = props;
   const [items, setItems] = useState([]);
   const [visibleItems, setVisibleItems] = useState([]);
 
@@ -57,7 +58,14 @@ const TrendingList = (props) => {
         {visibleItems.length > 0 ? (
           visibleItems
             .filter((item) => item.itemRestockCount > 0)
-            .map((item) => <SingleProduct key={item._id} item={item} />)
+            .map((item) => (
+            <SingleProduct 
+            key={item._id} 
+            item={item}  
+            cartDetails={cartDetails}
+            setCartDetails={setCartDetails} 
+            />
+            ))
         ) : (
           <div className="col-span-4">
             <h3 className="text-2xl font-bold text-center">

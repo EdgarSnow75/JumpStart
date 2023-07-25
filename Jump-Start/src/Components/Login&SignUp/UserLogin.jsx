@@ -1,8 +1,63 @@
 import { useNavigate } from "react-router-dom";
 import SecondaryButton from "../UI/Buttons/SecondaryButton";
-import { useEffect } from "react";
+import { useEffect, useReducer, useState } from "react";
 import UserService from "../../services/UserService";
 import ToastProps from "../UI/Notification/ToastProps";
+
+const loginReducer = (state, action) => {
+  if (action.type === "EMAIL_INPUT") {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression to match email pattern
+    const isValidEmail = emailPattern.test(action.val);
+    return {
+      emailAddress: action.val,
+      password: state.password,
+      emailIsValid: isValidEmail,
+      passwordIsvalid: state.passwordIsValid,
+      isValid: isValidEmail && state.passwordIsValid,
+    };
+  }
+  if (action.type === "EMAIL_BLUR") {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression to match email pattern
+    const isValidEmail = emailPattern.test(state.emailAddress);
+    return {
+      emailAddress: state.emailAddress,
+      password: state.password,
+      emailIsValid: isValidEmail,
+      passwordIsvalid: state.passwordIsValid,
+      isValid: isValidEmail && state.passwordIsValid,
+    };
+  }
+  if (action.type === "PASSWORD_INPUT") {
+    const hasMinimumLength = action.val.trim().length >= 8;
+    const hasUpperCaseLetter = /[A-Z]/.test(action.val);
+    const hasLowerCaseLetter = /[a-z]/.test(action.val);
+
+    const isValidPassword =
+      hasMinimumLength && hasUpperCaseLetter && hasLowerCaseLetter;
+    return {
+      emailAddress: state.emailAddress,
+      password: action.val,
+      emailIsValid: state.emailIsValid,
+      passwordIsValid: isValidPassword,
+      isValid: state.emailIsValid && isValidPassword,
+    };
+  }
+  if (action.type === "PASSWORD_BLUR") {
+    const hasMinimumLength = state.password.trim().length >= 8;
+    const hasUpperCaseLetter = /[A-Z]/.test(state.password);
+    const hasLowerCaseLetter = /[a-z]/.test(state.password);
+
+    const isValidPassword =
+      hasMinimumLength && hasUpperCaseLetter && hasLowerCaseLetter;
+    return {
+      emailAddress: state.emailAddress,
+      password: state.password,
+      emailIsValid: state.emailIsValid,
+      passwordIsValid: isValidPassword,
+      isValid: state.emailIsValid && isValidPassword,
+    };
+  }
+};
 
 const UserLogin = (props) => {
   const {
@@ -13,6 +68,16 @@ const UserLogin = (props) => {
     userType,
     setToasts,
   } = props;
+
+  const [loginCredentials, dispatchLogin] = useReducer(loginReducer, {
+    emailAddress: "",
+    password: "",
+    emailIsValid: null,
+    passwordIsValid: null,
+    isValid: false,
+  });
+
+  const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -27,13 +92,50 @@ const UserLogin = (props) => {
     }
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      console.log("Checking form validity");
+      setIsFormValid(
+        loginCredentials.emailIsValid && loginCredentials.passwordIsValid
+      );
+    }, 500);
+
+    return () => {
+      console.log("Effect Cleanup!");
+      clearTimeout(identifier);
+    };
+  }, [loginCredentials.emailIsValid, loginCredentials.passwordIsValid]);
+
+  const emailAddressChangeHanlder = (e) => {
+    dispatchLogin({
+      type: "EMAIL_INPUT",
+      val: e.target.value,
+    });
+  };
+  const emailBlurHanlder = () => {
+    dispatchLogin({
+      type: "EMAIL_BLUR",
+    });
+  };
+  const passwordChangeHanlder = (e) => {
+    dispatchLogin({
+      type: "PASSWORD_INPUT",
+      val: e.target.value,
+    });
+  };
+  const passwordBlurHanlder = () => {
+    dispatchLogin({
+      type: "PASSWORD_BLUR",
+    });
+  };
+
   const navigate = useNavigate();
 
   async function handleLogin(e) {
     e.preventDefault();
 
-    const emailAddress = e.target.emailAddress?.value;
-    const password = e.target.password?.value;
+    const emailAddress = loginCredentials.emailAddress;
+    const password = loginCredentials.password;
 
     const credentials = {
       emailAddress,
@@ -85,27 +187,79 @@ const UserLogin = (props) => {
           </h3>
           <form onSubmit={handleLogin}>
             <div className="flex flex-col mb-4">
-              <label className="mr-4">Your Email</label>
+              <label
+                className={`mr-4 ${
+                  loginCredentials.emailIsValid === false ? "text-red-500" : ""
+                }`}
+              >
+                Your Email
+              </label>
               <input
                 type="email"
                 name="emailAddress"
-                className="w-90 input text-black"
+                value={loginCredentials.emailAddress}
+                onChange={emailAddressChangeHanlder}
+                onBlur={emailBlurHanlder}
+                className={`w-90 input text-black ${
+                  loginCredentials.emailIsValid === false
+                    ? "border-red-500 bg-[#f6dbfc] text-black"
+                    : ""
+                }`}
                 placeholder="Email address"
-                required
               />
+              {loginCredentials.emailIsValid === false ? (
+                <div>
+                  <p className="text-red-500 font-light">
+                    Entered email is invalid! Please enter a valid email!
+                  </p>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
             <div className="flex flex-col">
-              <label className="mr-4">Password</label>
+              <label
+                className={`mr-4 ${
+                  loginCredentials.passwordIsValid === false
+                    ? "text-red-500"
+                    : ""
+                }`}
+              >
+                Password
+              </label>
               <input
                 type="password"
                 name="password"
-                className="w-90 input text-black"
+                value={loginCredentials.password}
+                onChange={passwordChangeHanlder}
+                onBlur={passwordBlurHanlder}
+                className={`w-90 input text-black ${
+                  loginCredentials.passwordIsValid === false
+                    ? "border-red-500 bg-[#f6dbfc] text-black"
+                    : ""
+                }`}
                 placeholder="Password"
-                required
               />
+              {loginCredentials.passwordIsValid === false ? (
+                <div>
+                  <p className="text-red-500 font-light">
+                    At least 8 characters with at least one capital and one
+                    small letters
+                  </p>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
             <div className="flex justify-center items-center">
-              <SecondaryButton type="submit" className="my-4">
+              <SecondaryButton
+                type="submit"
+                className={`my-4 ${
+                  isFormValid === false
+                    ? "btn-disabled bg-gray-500 text-gray-300"
+                    : ""
+                }`}
+              >
                 Login
               </SecondaryButton>
             </div>

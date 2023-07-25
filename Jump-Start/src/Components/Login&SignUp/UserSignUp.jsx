@@ -102,7 +102,7 @@ const customerReducer = (state, action) => {
     };
   }
   if (action.type === "PASSWORD_INPUT") {
-    const hasMinimumLength = action.val.trim().length >= 6;
+    const hasMinimumLength = action.val.trim().length >= 8;
     const hasUpperCaseLetter = /[A-Z]/.test(action.val);
     const hasLowerCaseLetter = /[a-z]/.test(action.val);
 
@@ -128,7 +128,7 @@ const customerReducer = (state, action) => {
     };
   }
   if (action.type === "PASSWORD_BLUR") {
-    const hasMinimumLength = state.password.trim().length >= 6;
+    const hasMinimumLength = state.password.trim().length >= 8;
     const hasUpperCaseLetter = /[A-Z]/.test(state.password);
     const hasLowerCaseLetter = /[a-z]/.test(state.password);
 
@@ -424,7 +424,7 @@ const UserSignUp = (props) => {
                   }`}
                   placeholder="Your Full Name"
                 />
-                {!customerDetails.nameIsValid ? (
+                {customerDetails.nameIsValid === false ? (
                   <div>
                     <p className="text-red-500 font-light">
                       Name cannot be empty! Please write your name!
@@ -448,7 +448,7 @@ const UserSignUp = (props) => {
                   value={customerDetails.emailAddress}
                   onChange={emailAddressChangeHanlder}
                   onBlur={emailBlurHanlder}
-                  className={`w-[30rem] input text-black${
+                  className={`w-[30rem] input text-black ${
                     customerDetails.emailIsValid === false
                       ? "border-red-500 bg-[#f6dbfc] text-black"
                       : ""
@@ -456,7 +456,7 @@ const UserSignUp = (props) => {
                   placeholder="Your Email"
                   required
                 />
-                {!customerDetails.emailIsValid ? (
+                {customerDetails.emailIsValid === false ? (
                   <div>
                     <p className="text-red-500 font-light">
                       Entered email is invalid! Please enter a valid email!
@@ -490,7 +490,7 @@ const UserSignUp = (props) => {
                   placeholder="At least 8 characters with at least one capital and one small letters"
                   required
                 />
-                {!customerDetails.passwordIsValid ? (
+                {customerDetails.passwordIsValid === false ? (
                   <div>
                     <p className="text-red-500 font-light">
                       At least 8 characters with at least one capital and one
@@ -525,7 +525,7 @@ const UserSignUp = (props) => {
                   placeholder="Your address"
                   required
                 />
-                {!customerDetails.locationIsValid ? (
+                {customerDetails.locationIsValid === false ? (
                   <div>
                     <p className="text-red-500 font-light">
                       Your location must be a valid location and cannot be
@@ -560,7 +560,7 @@ const UserSignUp = (props) => {
                   placeholder="Your contact information"
                   required
                 />
-                {!customerDetails.contactIsValid ? (
+                {customerDetails.contactIsValid === false ? (
                   <div>
                     <p className="text-red-500 font-light">
                       Your contact infomation must be longr than 4 letters!

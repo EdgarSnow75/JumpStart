@@ -134,19 +134,19 @@ const Home = (props) => {
           />
         )}
         {selectedTab === "kitchen" && (
-          <KitchenList userDetails={userDetails} cartDetails={cartDetails} />
+          <KitchenList userDetails={userDetails} cartDetails={cartDetails} setCartDetails={setCartDetails}/>
         )}
         {selectedTab === "diy" && (
-          <DIYList userDetails={userDetails} cartDetails={cartDetails} />
+          <DIYList userDetails={userDetails} cartDetails={cartDetails} setCartDetails={setCartDetails}/>
         )}
         {selectedTab === "gift" && (
-          <GiftList userDetails={userDetails} cartDetails={cartDetails} />
+          <GiftList userDetails={userDetails} cartDetails={cartDetails} setCartDetails={setCartDetails}/>
         )}
         {selectedTab === "home-care" && (
-          <HomeCareList userDetails={userDetails} cartDetails={cartDetails} />
+          <HomeCareList userDetails={userDetails} cartDetails={cartDetails} setCartDetails={setCartDetails}/>
         )}
         {selectedTab === "trending" && (
-          <TrendingList userDetails={userDetails} cartDetails={cartDetails} />
+          <TrendingList userDetails={userDetails} cartDetails={cartDetails} setCartDetails={setCartDetails}/>
         )}
       </div>
     </div>

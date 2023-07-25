@@ -19,4 +19,4 @@ const FeatureProduct = () => {
   );
 };
 
-export default Gift;
+export default FeatureProduct;

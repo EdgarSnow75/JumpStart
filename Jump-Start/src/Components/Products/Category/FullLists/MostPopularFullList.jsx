@@ -5,6 +5,7 @@ import StoreService from "../../../../services/StoreService";
 const MostPopularFullList = (props) => {
   const [items, setItems] = useState([]);
   const [visibleItems, setVisibleItems] = useState([]);
+  const { cartDetails, setCartDetails } = props;
 
   const viewItems = async () => {
     try {
@@ -52,7 +53,7 @@ const MostPopularFullList = (props) => {
   }, [items, visibleItems]);
 
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="mb-6 mt-8">
         <div>
           <h2 className="font-bold text-4xl text-center">
@@ -63,7 +64,14 @@ const MostPopularFullList = (props) => {
           {visibleItems.length > 0 ? (
             visibleItems
               .filter((item) => item.itemRestockCount > 0)
-              .map((item) => <SingleProduct key={item._id} item={item} />)
+              .map((item) => (
+              <SingleProduct 
+              key={item._id} 
+              item={item} 
+              cartDetails={cartDetails}
+              setCartDetails={setCartDetails} 
+              />
+              ))
           ) : (
             <div className="col-span-4">
               <h3 className="text-2xl font-bold text-center">

@@ -5,6 +5,7 @@ import SingleProduct from "../SingleProduct";
 const DIYList = (props) => {
   const [items, setItems] = useState([]);
   const [visibleItems, setVisibleItems] = useState([]);
+  const { cartDetails, setCartDetails } = props;
 
   const viewItems = async () => {
     try {
@@ -56,7 +57,14 @@ const DIYList = (props) => {
         {visibleItems.length > 0 ? (
           visibleItems
             .filter((item) => item.itemCategory === "DIY")
-            .map((item) => <SingleProduct key={item._id} item={item} />)
+            .map((item) => (
+            <SingleProduct 
+            key={item._id} 
+            item={item} 
+            cartDetails={cartDetails}
+            setCartDetails={setCartDetails} 
+            />
+            ))
         ) : (
           <div className="col-span-4">
             <h3 className="text-2xl font-bold text-center">

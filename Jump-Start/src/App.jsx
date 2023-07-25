@@ -8,7 +8,6 @@ import UserLogin from "./Components/Login&SignUp/UserLogin";
 import Privacy from "./Components/Privacy";
 import Return from "./Components/Return";
 import Contact from "./Components/Contact";
-import Map from "./Components/Location/Map";
 import ThankYou from "./Components/Login&SignUp/ThankYou";
 import UserSignUp from "./Components/Login&SignUp/UserSignUp";
 import { useEffect, useState } from "react";
@@ -34,10 +33,8 @@ import GiftFullList from "./Components/Products/Category/FullLists/GiftFullList"
 import MostPopularFullList from "./Components/Products/Category/FullLists/MostPopularFullList";
 import CartService from "./services/CartService";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { faMinus } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { fas, faTrashCan, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import FilterResults from "./Components/Products/Filter/FilterResults";
 
 library.add(faTrashCan, faMinus, faPlus);
 
@@ -51,11 +48,13 @@ const App = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await UserService.getUserDetails();
-        if (response) {
-          setIsLoggedIn(true);
-          setUserDetails(response);
-          setUserType(response.userType);
+        if (Object.keys(userDetails).length !== 0) {
+          const response = await UserService.getUserDetails();
+          if (response) {
+            setIsLoggedIn(true);
+            setUserDetails(response);
+            setUserType(response.userType);
+          }
         }
       } catch (error) {
         // Handle any errors that occur during the asynchronous operations
@@ -69,16 +68,18 @@ const App = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const response = await CartService.getCartByCustomer(userDetails._id);
-        if (response) {
-          const fetchedCart = await CartService.getCart(response._id);
-          setCartDetails(fetchedCart);
-          console.log("Cart already exists");
-        } else {
-          const cart = await CartService.createCart(userDetails._id);
-          console.log("Cart created");
-          const fetchedCart = await CartService.getCart(cart.cartData._id);
-          setCartDetails(fetchedCart);
+        if (Object.keys(userDetails).length !== 0) {
+          const response = await CartService.getCartByCustomer(userDetails._id);
+          if (response) {
+            const fetchedCart = await CartService.getCart(response._id);
+            setCartDetails(fetchedCart);
+            console.log("Cart already exists");
+          } else {
+            const cart = await CartService.createCart(userDetails._id);
+            console.log("Cart created");
+            const fetchedCart = await CartService.getCart(cart.cartData._id);
+            setCartDetails(fetchedCart);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -125,6 +126,7 @@ const App = () => {
               />
             }
           ></Route>
+          <Route path="/items/filter" element={<FilterResults />}></Route>
           <Route
             path="/admin/adminDashboard"
             element={

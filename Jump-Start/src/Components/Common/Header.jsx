@@ -3,14 +3,18 @@ import SecondaryButton from "../UI/Buttons/SecondaryButton";
 import SecondaryButtonOutline from "../UI/Buttons/SecondaryButtonOutline";
 import JumpStart from "/src/Images/HeaderAndFooter/JumpStart.png";
 import ToastProps from "../UI/Notification/ToastProps";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import UserService from "../../services/UserService";
 import ProfilePic from "../../images/user.png";
 import StoreService from "../../services/StoreService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CartService from "../../services/CartService";
+import ItemContext from "../Contexts/ItemContext";
 
 const Header = (props) => {
+  const ItemCtx = useContext(ItemContext);
+  const [keyword, setKeyword] = useState("");
+
   const {
     isLoggedIn,
     setIsLoggedIn,
@@ -22,6 +26,8 @@ const Header = (props) => {
   } = props;
   const [profileLink, setProfileLink] = useState("");
   const [itemDetails, setItemDetails] = useState([]);
+  const [isCartMenuHovered, setIsCartMenuHovered] = useState(false);
+  const cartMenuRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,20 +52,37 @@ const Header = (props) => {
   };
 
   useEffect(() => {
-    const fetchItemDetails = async () => {
-      const itemDetailsPromises = cartDetails.items.map(async (item) => {
-        const itemDetails = await StoreService.getItem(item.item);
-        return {
-          ...itemDetails,
-          quantity: item.quantity, // Add quantity to the itemDetails object
-        };
-      });
+    if (Object.keys(userDetails).length !== 0) {
+      const fetchItemDetails = async () => {
+        const itemDetailsPromises = cartDetails.items.map(async (item) => {
+          const itemDetails = await StoreService.getItem(item.item);
+          return {
+            ...itemDetails,
+            quantity: item.quantity, // Add quantity to the itemDetails object
+          };
+        });
 
-      const resolvedItemDetails = await Promise.all(itemDetailsPromises);
-      setItemDetails(resolvedItemDetails);
-    };
-    fetchItemDetails();
-  }, [cartDetails.items]);
+        const resolvedItemDetails = await Promise.all(itemDetailsPromises);
+        setItemDetails(resolvedItemDetails);
+      };
+      fetchItemDetails();
+    }
+  }, [userDetails, cartDetails.items]);
+
+  const onKeywordChangeHanlder = (event) => {
+    setKeyword(event.target.value);
+    console.log(keyword);
+  };
+
+  const onClickSearchHanlder = async (e) => {
+    try {
+      await ItemCtx.keywordSetHandler(keyword);
+      setKeyword("");
+      navigate("/items/filter");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const linkHandler = (path) => {
     navigate(path);
@@ -130,10 +153,12 @@ const Header = (props) => {
       <div className="form-control start-2 m-2 flex flex-row mr-10">
         <input
           type="text"
+          onChange={onKeywordChangeHanlder}
+          value={keyword}
           placeholder="Search"
           className="input text-black w-[18rem] focus:ring-1 ring-secondary mr-2"
         />
-        <SecondaryButton>Search</SecondaryButton>
+        <SecondaryButton onClick={onClickSearchHanlder}>Search</SecondaryButton>
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal p-1">
@@ -245,73 +270,93 @@ const Header = (props) => {
 
                 <div
                   tabIndex={0}
-                  className="dropdown-content menu w-[34rem] bg-base-100 shadow rounded-box ring-[0.5px] ring-secondary -left-[21rem] top-16"
+                  className="card-body dropdown-content menu w-[30rem] max-h-[44rem] bg-base-100 shadow rounded-box ring-[0.5px] ring-secondary -left-[21rem] top-16 flex-row"
                 >
-                  <div className="card-body p-2">
-                    {itemDetails.map((item) => (
-                      <div
-                        className="card card-side bg-base-100 shadow-md p-1 ring-[0.2px]"
-                        key={item._id}
-                      >
-                        <figure className="w-36 p-1">
-                          <img
-                            src={item.itemImg}
-                            className="w-[130px] h-[130px] rounded ring-[0.4px] ring-black"
-                            alt="Item Image"
-                          />
-                        </figure>
-                        <div className="card-body text-black px-2">
-                          <h2 className="card-title text-xs">
-                            {item.itemName}
-                          </h2>
-                          <p className="text-secondary font-bold text-xs">
-                            Item Price:
-                            <span className="text-black font-normal ml-2">
-                              ${item.itemPrice}
-                            </span>
-                          </p>
-                          <div className="card-actions justify-between mx-4">
-                            <div className="flex flex-row space-x-2">
-                              <button
-                                onClick={() => onClickItemDecrease(item._id)}
-                              >
-                                <FontAwesomeIcon
-                                  icon="fa-solid fa-minus"
-                                  style={{ color: "#e65000" }}
-                                />
-                              </button>
-                              <div>
-                                <p className="text-black">{item.quantity}</p>
-                              </div>
+                  <div
+                    onMouseEnter={() => setIsCartMenuHovered(true)}
+                    onMouseLeave={() => setIsCartMenuHovered(false)}
+                    className={`m-2 ${
+                      isCartMenuHovered
+                        ? "max-h-[34rem] overflow-y-auto"
+                        : "overflow-hidden max-h-[34rem]"
+                    }`}
+                  >
+                    {cartDetails.totalItems !== 0 ? (
+                      itemDetails.map((item) => (
+                        <div
+                          className="card card-side bg-base-100 shadow-md p-1 m-1 ring-[0.2px]"
+                          key={item._id}
+                        >
+                          <figure className="w-36 p-1">
+                            <img
+                              src={item.itemImg}
+                              className="w-[8rem] h-[10rem] rounded ring-[0.4px] ring-black ml-1"
+                              alt="Item Image"
+                            />
+                          </figure>
+                          <div className="card-body text-black px-2">
+                            <h2 className="card-title text-xs max-w-[20rem]">
+                              {item.itemName}
+                            </h2>
+                            <p className="text-secondary font-bold text-xs">
+                              Item Price:
+                              <span className="text-black font-normal ml-2">
+                                ${item.itemPrice}
+                              </span>
+                            </p>
+                            <div className="card-actions justify-between mx-4">
+                              <div className="flex flex-row space-x-2">
+                                <button
+                                  onClick={() => onClickItemDecrease(item._id)}
+                                >
+                                  <FontAwesomeIcon
+                                    icon="fa-solid fa-minus"
+                                    style={{ color: "#e65000" }}
+                                  />
+                                </button>
+                                <div>
+                                  <p className="text-black">{item.quantity}</p>
+                                </div>
 
+                                <button
+                                  onClick={() => onClickItemIncrease(item._id)}
+                                >
+                                  <FontAwesomeIcon
+                                    icon="fa-solid fa-plus"
+                                    style={{ color: "#e65000" }}
+                                  />
+                                </button>
+                              </div>
                               <button
-                                onClick={() => onClickItemIncrease(item._id)}
+                                onClick={() => onClickItemDelete(item._id)}
                               >
                                 <FontAwesomeIcon
-                                  icon="fa-solid fa-plus"
-                                  style={{ color: "#e65000" }}
+                                  icon="fa-solid fa-trash-can"
+                                  style={{ color: "#c1331a" }}
+                                  className=""
                                 />
                               </button>
                             </div>
-                            <button onClick={() => onClickItemDelete(item._id)}>
-                              <FontAwesomeIcon
-                                icon="fa-solid fa-trash-can"
-                                style={{ color: "#c1331a" }}
-                                className=""
-                              />
-                            </button>
                           </div>
                         </div>
+                      ))
+                    ) : (
+                      <div className="m-2">
+                        <p className="text-center text-black text-xl">
+                          There are no items in the cart yet! <br />
+                          <br />
+                          Please add some items to the cart.
+                        </p>
                       </div>
-                    ))}
-                    <div className="my-2">
-                      <p className="text-secondary text-xl text-bold">
-                        Total Price:
-                        <span className="text-black ml-2">
-                          ${cartDetails.totalCost}
-                        </span>
-                      </p>
-                    </div>
+                    )}
+                  </div>
+                  <div className="my-2">
+                    <p className="text-secondary text-xl text-bold">
+                      Total Price:
+                      <span className="text-black ml-2">
+                        ${cartDetails.totalCost}
+                      </span>
+                    </p>
                     <div className="card-actions">
                       <button className="btn btn-secondary btn-block">
                         View cart

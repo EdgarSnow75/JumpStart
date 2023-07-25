@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import StoreService from "../../services/StoreService";
 import PrimaryButton from "../UI/Buttons/PrimaryButton";
+import CartService from "../../services/CartService";
 
-const ProductDetails = () => {
+const ProductDetails = (props) => {
+  const { cartDetails, setCartDetails } = props;
+
   const { id } = useParams();
   const [item, setItem] = useState({
     itemName: "",
@@ -14,7 +17,12 @@ const ProductDetails = () => {
     itemStock: "",
   });
 
-  const navigate = useNavigate();
+  const onClickItemIncrease = async (itemID) => {
+    console.log("Single Product details: ", cartDetails);
+    await CartService.addItemToCart(cartDetails._id, itemID);
+    const updatedCartDetails = await CartService.getCart(cartDetails._id);
+    setCartDetails(updatedCartDetails);
+  };
 
   useEffect(() => {
     async function fetchItem() {
@@ -55,7 +63,7 @@ const ProductDetails = () => {
             </span>
           </h3>
           <PrimaryButton
-            onClick={() => console.log("")}
+            onClick={() => onClickItemIncrease(item._id)}
             className="bg-primary text-sky-50 px-2 py-1 mt-4 w-60 "
           >
             Add to cart

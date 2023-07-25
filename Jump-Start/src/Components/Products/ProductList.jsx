@@ -1,12 +1,13 @@
-import { useNavigate } from "react-router-dom";
 import StoreService from "../../services/StoreService";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SingleProduct from "./SingleProduct";
-import CartService from "../../services/CartService";
+import ItemContext from "../Contexts/ItemContext";
+import ItemService from "../../services/ItemService";
 
 const ProductList = (props) => {
-  const { cartDetails, setCartDetails, userDetails } = props;
-  const navigate = useNavigate();
+  const ItemCtx = useContext(ItemContext);
+  const { cartDetails, setCartDetails } = props;
+
   const [items, setItems] = useState([]);
   const [visibleItems, setVisibleItems] = useState([]);
 
@@ -31,6 +32,24 @@ const ProductList = (props) => {
   useEffect(() => {
     viewItems();
   }, []);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const filteredItems = await ItemService.filterItems(
+          ItemCtx.filterKeyword
+        );
+        setItems(filteredItems);
+        setVisibleItems(filteredItems.slice(0, 15));
+        console.log(items);
+      } catch (error) {
+        // Handle any errors here
+        console.error(error);
+      }
+    };
+
+    fetchItems();
+  }, [ItemCtx.filterKeyword]);
 
   useEffect(() => {
     const handleScroll = () => {
