@@ -2,10 +2,9 @@ import StoreService from "../../../services/StoreService";
 import { useEffect, useState } from "react";
 import SingleProduct from "../SingleProduct";
 
-const TrendingList = (props) => {
+const TrendingList = ([visibleItems, setVisibleItems]) => {
   const { cartDetails, setCartDetails } = props;
   const [items, setItems] = useState([]);
-  const [visibleItems, setVisibleItems] = useState([]);
 
   const viewItems = async () => {
     try {
@@ -59,12 +58,12 @@ const TrendingList = (props) => {
           visibleItems
             .filter((item) => item.itemRestockCount > 0)
             .map((item) => (
-            <SingleProduct 
-            key={item._id} 
-            item={item}  
-            cartDetails={cartDetails}
-            setCartDetails={setCartDetails} 
-            />
+              <SingleProduct
+                key={item._id}
+                item={item}
+                cartDetails={cartDetails}
+                setCartDetails={setCartDetails}
+              />
             ))
         ) : (
           <div className="col-span-4">

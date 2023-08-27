@@ -3,16 +3,33 @@ import StarRating from "../Misc/StarRating";
 import PrimaryButton from "../UI/Buttons/PrimaryButton";
 import SecondaryButton from "../UI/Buttons/SecondaryButton";
 import CartService from "../../services/CartService";
+import ToastProps from "../UI/Notification/ToastProps";
+import { useSelector } from "react-redux";
 
-const SingleProduct = (props) => {
-  const { item, cartDetails, setCartDetails } = props;
+const SingleProduct = ({ item, cartDetails, setCartDetails, setToasts }) => {
+  const userDetails = useSelector((state) => state.user.userDetails);
+
   const navigate = useNavigate();
 
   const onClickItemIncrease = async (itemID) => {
-    console.log("Single Product details: ", cartDetails);
-    await CartService.addItemToCart(cartDetails._id, itemID);
-    const updatedCartDetails = await CartService.getCart(cartDetails._id);
-    setCartDetails(updatedCartDetails);
+    try {
+      if (Object.keys(userDetails).length !== 0) {
+        console.log("Single Product details: ", cartDetails);
+        await CartService.addItemToCart(cartDetails._id, itemID);
+        const updatedCartDetails = await CartService.getCart(cartDetails._id);
+        setCartDetails(updatedCartDetails);
+      } else {
+        setToasts((toasts) => [
+          ...toasts,
+          new ToastProps({
+            type: "error",
+            message: "You need to login first before adding items to the cart",
+          }),
+        ]);
+      }
+    } catch (err) {
+      console.log("There was an error adding item to the cart", err);
+    }
   };
 
   return (

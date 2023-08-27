@@ -2,10 +2,9 @@ import StoreService from "../../../services/StoreService";
 import { useEffect, useState } from "react";
 import SingleProduct from "../SingleProduct";
 
-const HomeCareList = (props) => {
+const HomeCareList = ({ cartDetails, setCartDetails }) => {
   const [items, setItems] = useState([]);
   const [visibleItems, setVisibleItems] = useState([]);
-  const { cartDetails, setCartDetails } = props;
 
   const viewItems = async () => {
     try {
@@ -59,12 +58,12 @@ const HomeCareList = (props) => {
           visibleItems
             .filter((item) => item.itemCategory === "Home Care")
             .map((item) => (
-            <SingleProduct 
-            key={item._id} 
-            item={item} 
-            cartDetails={cartDetails}
-            setCartDetails={setCartDetails} 
-            />
+              <SingleProduct
+                key={item._id}
+                item={item}
+                cartDetails={cartDetails}
+                setCartDetails={setCartDetails}
+              />
             ))
         ) : (
           <div className="col-span-4">

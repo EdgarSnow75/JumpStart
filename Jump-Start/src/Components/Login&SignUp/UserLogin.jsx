@@ -1,8 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useResolvedPath } from "react-router-dom";
 import SecondaryButton from "../UI/Buttons/SecondaryButton";
 import { useEffect, useReducer, useState } from "react";
 import UserService from "../../services/UserService";
 import ToastProps from "../UI/Notification/ToastProps";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../store/authSlice";
+import { userActions } from "../../store/userSlice";
 
 const loginReducer = (state, action) => {
   if (action.type === "EMAIL_INPUT") {
@@ -59,15 +62,10 @@ const loginReducer = (state, action) => {
   }
 };
 
-const UserLogin = (props) => {
-  const {
-    isLoggedIn,
-    setIsLoggedIn,
-    setUserType,
-    setUserDetails,
-    userType,
-    setToasts,
-  } = props;
+const UserLogin = ({ setToasts }) => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userType = useSelector((state) => state.user.userType);
+  const dispatch = useDispatch();
 
   const [loginCredentials, dispatchLogin] = useReducer(loginReducer, {
     emailAddress: "",
@@ -144,7 +142,7 @@ const UserLogin = (props) => {
 
     try {
       const { userType } = await UserService.login(credentials);
-      setUserType(userType);
+      dispatch(userActions.setUserType(userType));
 
       setToasts((toasts) => [
         ...toasts,
@@ -162,9 +160,9 @@ const UserLogin = (props) => {
 
     try {
       const userDetails = await UserService.getUserDetails();
-      setUserDetails(userDetails);
-
-      setIsLoggedIn(true);
+      dispatch(userActions.setUserDetails(userDetails));
+      dispatch(authActions.login());
+      navigate("/customer/customerProfile");
     } catch (error) {
       console.log(error);
       const errorMessage = error.message || "An error occurred"; // Extract the error message

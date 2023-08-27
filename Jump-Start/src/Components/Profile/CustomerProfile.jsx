@@ -3,9 +3,13 @@ import { useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import SecondaryButton from "../UI/Buttons/SecondaryButton";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../store/authSlice";
 
-const CustomerProfile = (props) => {
-  const { isLoggedIn, setIsLoggedIn, userDetails } = props;
+const CustomerProfile = () => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userDetails = useSelector((state) => state.user.userDetails);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -14,8 +18,8 @@ const CustomerProfile = (props) => {
       navigate("/user/login");
     }
 
-    if (Object.keys(userDetails).length === 0) {
-      setIsLoggedIn(false);
+    if (userDetails === null && Object.keys(userDetails).length === 0) {
+      dispatch(authActions.logout());
     }
   }, [isLoggedIn, userDetails]);
 
@@ -38,19 +42,19 @@ const CustomerProfile = (props) => {
             </h2>
             <h3 className="mb-2">Full Name: </h3>
             <div className="rounded-box w-[40rem] bg-base-100 ring-4 ring-black text-black p-2 mb-5">
-              <h3 className="pl-5 text-xl">{userDetails.customerName}</h3>
+              <h3 className="pl-5 text-xl">{userDetails?.customerName}</h3>
             </div>
             <h3 className="mb-2">Email Address: </h3>
             <div className="rounded-box w-[40rem] bg-base-100 ring-4 ring-black text-black p-2 mb-5">
-              <h3 className="pl-5 text-xl">{userDetails.emailAddress}</h3>
+              <h3 className="pl-5 text-xl">{userDetails?.emailAddress}</h3>
             </div>
             <h3 className="mb-2">Address:</h3>
             <div className="rounded-box w-[40rem] bg-base-100 ring-4 ring-black text-black p-2 mb-5">
-              <h3 className="pl-5 text-xl">{userDetails.customerLocation}</h3>
+              <h3 className="pl-5 text-xl">{userDetails?.customerLocation}</h3>
             </div>
             <h3 className="mb-2">Contact number:</h3>
             <div className="rounded-box w-[40rem] bg-base-100 ring-4 ring-black text-black p-2 mb-5">
-              <h3 className="pl-5 text-xl">{userDetails.customerContact}</h3>
+              <h3 className="pl-5 text-xl">{userDetails?.customerContact}</h3>
             </div>
             <div>
               <SecondaryButton onClick={handleEditProfileButton}>

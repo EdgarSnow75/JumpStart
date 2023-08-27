@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ToastProps from "../UI/Notification/ToastProps";
 import AdminUserControl from "./AdminUserControl";
 import AdminStoreControl from "./AdminStoreControl";
 import AdminInventoryControl from "./AdminInventoryControl";
+import { useSelector } from "react-redux";
 
-const AdminDashBoard = (props) => {
-  const { isLoggedIn, userDetails, setToasts } = props;
+const AdminDashBoard = ({ setToasts }) => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userDetails = useSelector((state) => state.user.userDetails);
+  const userType = useSelector((state) => state.user.userType);
+
   const navigate = useNavigate();
   const [tab, setTab] = useState("Users");
 
   useEffect(() => {
-    if (!isLoggedIn || userDetails.userType !== "admin") {
+    if (!isLoggedIn || userType !== "admin") {
       navigate("/user/login");
     }
-  }, [isLoggedIn, userDetails]);
+  }, [isLoggedIn, userDetails, userType]);
 
   const onChangeHandler = (event) => {
     const target = event.target;

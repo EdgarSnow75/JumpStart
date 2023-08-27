@@ -3,10 +3,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import StoreService from "../../services/StoreService";
 import PrimaryButton from "../UI/Buttons/PrimaryButton";
 import CartService from "../../services/CartService";
+import { useSelector } from "react-redux";
 
-const ProductDetails = (props) => {
-  const { cartDetails, setCartDetails } = props;
-
+const ProductDetails = ({ cartDetails, setCartDetails }) => {
   const { id } = useParams();
   const [item, setItem] = useState({
     itemName: "",

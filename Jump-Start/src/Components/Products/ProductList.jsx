@@ -4,9 +4,8 @@ import SingleProduct from "./SingleProduct";
 import ItemContext from "../Contexts/ItemContext";
 import ItemService from "../../services/ItemService";
 
-const ProductList = (props) => {
+const ProductList = ({ cartDetails, setCartDetails, setToasts }) => {
   const ItemCtx = useContext(ItemContext);
-  const { cartDetails, setCartDetails } = props;
 
   const [items, setItems] = useState([]);
   const [visibleItems, setVisibleItems] = useState([]);
@@ -82,6 +81,7 @@ const ProductList = (props) => {
               item={item}
               cartDetails={cartDetails}
               setCartDetails={setCartDetails}
+              setToasts={setToasts}
             />
           ))
         ) : (

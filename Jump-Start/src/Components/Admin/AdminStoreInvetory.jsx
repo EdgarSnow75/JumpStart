@@ -181,7 +181,7 @@ const AdminStoreInventory = () => {
                   <td>
                     <div className="flex flex-col items-center">
                       <button className="btn btn-secondary w-24 mb-2">
-                        <Link to={`/items/itemUpdate/${item._id}`}>Update</Link>
+                        <Link to={`/item/itemUpdate/${item._id}`}>Update</Link>
                       </button>
                       <button
                         className="btn btn-error w-24"

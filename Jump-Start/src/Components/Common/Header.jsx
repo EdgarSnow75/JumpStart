@@ -9,25 +9,22 @@ import ProfilePic from "../../images/user.png";
 import StoreService from "../../services/StoreService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CartService from "../../services/CartService";
-import ItemContext from "../Contexts/ItemContext";
+import NavbarDropdown from "./HeaderSub/NavbarDropdown";
+import SearchBar from "./HeaderSub/SearchBar";
+import NavbarLinks from "./HeaderSub/NavbarLinks,";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../store/authSlice";
+import { userActions } from "../../store/userSlice";
 
-const Header = (props) => {
-  const ItemCtx = useContext(ItemContext);
-  const [keyword, setKeyword] = useState("");
+const Header = ({ setToasts, cartDetails, setCartDetails }) => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userDetails = useSelector((state) => state.user.userDetails);
+  const userType = useSelector((state) => state.user.userType);
+  const dispatch = useDispatch();
 
-  const {
-    isLoggedIn,
-    setIsLoggedIn,
-    userDetails,
-    userType,
-    setToasts,
-    cartDetails,
-    setCartDetails,
-  } = props;
   const [profileLink, setProfileLink] = useState("");
   const [itemDetails, setItemDetails] = useState([]);
   const [isCartMenuHovered, setIsCartMenuHovered] = useState(false);
-  const cartMenuRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,13 +43,15 @@ const Header = (props) => {
   const handleLogout = async () => {
     const response = await UserService.logout();
 
-    setIsLoggedIn(false);
+    dispatch(authActions.logout());
+    dispatch(userActions.clearUserDetails());
+    dispatch(userActions.clearUserType());
     setToasts((prev) => [...prev, new ToastProps({ message: response.msg })]);
     navigate("/user/login");
   };
 
   useEffect(() => {
-    if (Object.keys(userDetails).length !== 0) {
+    if (userDetails !== null && Object.keys(userDetails).length !== 0) {
       const fetchItemDetails = async () => {
         const itemDetailsPromises = cartDetails.items.map(async (item) => {
           const itemDetails = await StoreService.getItem(item.item);
@@ -68,21 +67,6 @@ const Header = (props) => {
       fetchItemDetails();
     }
   }, [userDetails, cartDetails.items]);
-
-  const onKeywordChangeHanlder = (event) => {
-    setKeyword(event.target.value);
-    console.log(keyword);
-  };
-
-  const onClickSearchHanlder = async (e) => {
-    try {
-      await ItemCtx.keywordSetHandler(keyword);
-      setKeyword("");
-      navigate("/items/filter");
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const linkHandler = (path) => {
     navigate(path);
@@ -140,8 +124,9 @@ const Header = (props) => {
   };
 
   return (
-    <div className="navbar w-screen bg-primary px-4 sticky top-0 z-20 text-white">
-      <div className="flex-1">
+    <div className="navbar bg-primary px-4 sticky top-0 z-20 text-white box-border">
+      <div className="flex-1 ml-3">
+        <NavbarDropdown navigator={navigate} />
         <a
           className="flex items-center cursor-pointer hover:text-primary normal-case w-40 mt-4"
           onClick={() => linkHandler("/")}
@@ -149,86 +134,8 @@ const Header = (props) => {
           <img src={JumpStart} />
         </a>
       </div>
-
-      <div className="form-control start-2 m-2 flex flex-row mr-10">
-        <input
-          type="text"
-          onChange={onKeywordChangeHanlder}
-          value={keyword}
-          placeholder="Search"
-          className="input text-black w-[18rem] focus:ring-1 ring-secondary mr-2"
-        />
-        <SecondaryButton onClick={onClickSearchHanlder}>Search</SecondaryButton>
-      </div>
-      <div className="flex-none">
-        <ul className="menu menu-horizontal p-1">
-          <li>
-            <a onClick={() => navigate("/storeMap")}>Find a Store</a>
-          </li>
-          <li tabIndex={0}>
-            <a>
-              Categories
-              <svg
-                className="fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-              >
-                <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-              </svg>
-            </a>
-            <ul className="p-2 bg-base-100 z-0 ring-1 ring-[rgba(0,0,0,0.2)]">
-              <li>
-                <a
-                  className="bg-secondary hover:bg-secondary-focus mb-2 flex flex-row justify-center"
-                  onClick={() => navigate("/Category/MostPopular")}
-                >
-                  Most Popular
-                </a>
-              </li>
-              <li>
-                <a
-                  className="bg-secondary hover:bg-secondary-focus mb-2 flex flex-row justify-center"
-                  onClick={() => navigate("/Category/Kitchen")}
-                >
-                  Kitchen
-                </a>
-              </li>
-              <li>
-                <a
-                  className="bg-secondary hover:bg-secondary-focus mb-2 flex flex-row justify-center"
-                  onClick={() => navigate("/Category/DIY")}
-                >
-                  DIY
-                </a>
-              </li>
-              <li>
-                <a
-                  className="bg-secondary hover:bg-secondary-focus mb-2 flex flex-row justify-center"
-                  onClick={() => navigate("/Category/HomeCare")}
-                >
-                  Home Care
-                </a>
-              </li>
-              <li>
-                <a
-                  className="bg-secondary hover:bg-secondary-focus mb-2 flex flex-row justify-center"
-                  onClick={() => navigate("/Category/Gift")}
-                >
-                  Gift
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a>Orders</a>
-          </li>
-          <li>
-            <a>Customer Service</a>
-          </li>
-        </ul>
-      </div>
+      <SearchBar navigator={navigate} />
+      <NavbarLinks navigator={navigate} />
       <div className="flex-none">
         {!isLoggedIn ? (
           <div className="pr-2">

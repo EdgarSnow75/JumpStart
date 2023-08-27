@@ -3,6 +3,7 @@ import CustomerService from "../../services/CustomerService";
 import SecondaryButton from "../UI/Buttons/SecondaryButton";
 import ToastProps from "../UI/Notification/ToastProps";
 import { useEffect, useReducer, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const customerReducer = (state, action) => {
   if (action.type === "NAME_INPUT") {
@@ -248,8 +249,10 @@ const customerReducer = (state, action) => {
   };
 };
 
-const UserSignUp = (props) => {
-  const { isLoggedIn, userType, setToasts } = props;
+const UserSignUp = ({ setToasts }) => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userType = useSelector((state) => state.user.userType);
+
   const [isFormValid, setIsFormValid] = useState(false);
   const [customerDetails, dispatchCustomerDetails] = useReducer(
     customerReducer,

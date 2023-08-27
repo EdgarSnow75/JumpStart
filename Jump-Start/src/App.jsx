@@ -33,15 +33,24 @@ import GiftFullList from "./Components/Products/Category/FullLists/GiftFullList"
 import MostPopularFullList from "./Components/Products/Category/FullLists/MostPopularFullList";
 import CartService from "./services/CartService";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas, faTrashCan, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  fas,
+  faTrashCan,
+  faMinus,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import FilterResults from "./Components/Products/Filter/FilterResults";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "./store/authSlice";
+import { userActions } from "./store/userSlice";
 
 library.add(faTrashCan, faMinus, faPlus);
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userType, setUserType] = useState("");
-  const [userDetails, setUserDetails] = useState({});
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userDetails = useSelector((state) => state.user.userDetails);
+  const dispatch = useDispatch();
+
   const [toasts, setToasts] = useState([]);
   const [cartDetails, setCartDetails] = useState({});
 
@@ -51,9 +60,9 @@ const App = () => {
         if (Object.keys(userDetails).length !== 0) {
           const response = await UserService.getUserDetails();
           if (response) {
-            setIsLoggedIn(true);
-            setUserDetails(response);
-            setUserType(response.userType);
+            dispatch(authActions.login());
+            dispatch(userActions.setUserDetails(response));
+            dispatch(userActions.setUserType(response.userType));
           }
         }
       } catch (error) {
@@ -68,7 +77,7 @@ const App = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        if (Object.keys(userDetails).length !== 0) {
+        if (userDetails !== null && Object.keys(userDetails).length !== 0) {
           const response = await CartService.getCartByCustomer(userDetails._id);
           if (response) {
             const fetchedCart = await CartService.getCart(response._id);
@@ -91,8 +100,8 @@ const App = () => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      setUserType("");
-      setUserDetails({});
+      dispatch(userActions.clearUserType());
+      dispatch(userActions.clearUserDetails());
     }
   }, [isLoggedIn]);
 
@@ -103,10 +112,6 @@ const App = () => {
     <div className="App">
       <BrowserRouter>
         <Header
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          userDetails={userDetails}
-          userType={userType}
           setToasts={setToasts}
           cartDetails={cartDetails}
           setCartDetails={setCartDetails}
@@ -117,9 +122,6 @@ const App = () => {
             path="/"
             element={
               <Home
-                userDetails={userDetails}
-                isLoggedIn={isLoggedIn}
-                userType={userType}
                 setToasts={setToasts}
                 cartDetails={cartDetails}
                 setCartDetails={setCartDetails}
@@ -131,9 +133,6 @@ const App = () => {
             path="/admin/adminDashboard"
             element={
               <AdminDashBoard
-                userDetails={userDetails}
-                isLoggedIn={isLoggedIn}
-                userType={userType}
                 setToasts={setToasts}
                 cartDetails={cartDetails}
                 setCartDetails={setCartDetails}
@@ -151,13 +150,11 @@ const App = () => {
           <Route path="/user/thankyou" element={<ThankYou />}></Route>
           <Route
             path="/user/signup"
-            element={
-              <UserSignUp
-                isLoggedIn={isLoggedIn}
-                userType={userType}
-                setToasts={setToasts}
-              />
-            }
+            element={<UserSignUp setToasts={setToasts} />}
+          ></Route>
+          <Route
+            path="/user/login"
+            element={<UserLogin setToasts={setToasts} />}
           ></Route>
           <Route
             path="/store/newStore"
@@ -184,54 +181,21 @@ const App = () => {
             element={<AdminItemProfileUpdate setToasts={setToasts} />}
           ></Route>
           <Route
-            path="/user/login"
-            element={
-              <UserLogin
-                isLoggedIn={isLoggedIn}
-                setIsLoggedIn={setIsLoggedIn}
-                setUserType={setUserType}
-                setUserDetails={setUserDetails}
-                userDetails={userDetails}
-                userType={userType}
-                setToasts={setToasts}
-              />
-            }
-          ></Route>
-          <Route
             path="/customer/customerProfile"
-            element={
-              <CustomerProfile
-                isLoggedIn={isLoggedIn}
-                setIsLoggedIn={setIsLoggedIn}
-                userDetails={userDetails}
-                setToasts={setToasts}
-              />
-            }
+            element={<CustomerProfile />}
           ></Route>
           <Route
             path="/customer/profileUpdate"
-            element={
-              <CustomerProfileUpdate
-                isLoggedIn={isLoggedIn}
-                userDetails={userDetails}
-                setToasts={setToasts}
-              />
-            }
+            element={<CustomerProfileUpdate setToasts={setToasts} />}
           ></Route>
           <Route
             path="/ProductList"
-            element={
-              <ProductList
-                isLoggedIn={isLoggedIn}
-                setIsLoggedIn={setIsLoggedIn}
-              />
-            }
+            element={<ProductList setToasts={setToasts} />}
           />
           <Route
             path="/itemDetails/:id"
             element={
               <ProductDetails
-                userDetails={userDetails}
                 cartDetails={cartDetails}
                 setCartDetails={setCartDetails}
               />

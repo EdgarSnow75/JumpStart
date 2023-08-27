@@ -1,4 +1,4 @@
-import JumpStart from "/src/Images/HeaderAndFooter/JumpStart.png";
+import FooterLinks from "./FooterSub/FooterLinks";
 
 const Footer = () => {
   return (
@@ -8,28 +8,7 @@ const Footer = () => {
           <p className="w-full">Privacy Notice</p>
           <p>Copyright</p>
         </div>
-        <div className="grid-cols">
-          <div className="w-40 items relative left-60 top-5">
-            <img src={JumpStart} className="w-30 " />
-          </div>
-          <ul className="menu menu-horizontal  rounded-box">
-            <li>
-              <a>Customer Support</a>
-            </li>
-            <li>
-              <a>Become a Distributor</a>
-            </li>
-            <li>
-              <a href="/Return">Return Policy</a>
-            </li>
-            <li>
-              <a href="/AboutUs">About Us</a>
-            </li>
-            <li>
-              <a href="/ContactUs">Contact Us</a>
-            </li>
-          </ul>
-        </div>
+        <FooterLinks />
         <div className="grid-cols relative left-40 top-8 ">
           <div className="a">
             <div className=" grid grid-flow-col gap-4">

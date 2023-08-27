@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 import BackButton from "../UI/Buttons/BackButton";
 import CustomerService from "../../services/CustomerService";
 import ToastProps from "../UI/Notification/ToastProps";
+import { useSelector } from "react-redux";
 
-const CustomerProfileUpdate = (props) => {
-  const { isLoggedIn, userDetails, setToasts } = props;
+const CustomerProfileUpdate = ({ setToasts }) => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userDetails = useSelector((state) => state.user.userDetails);
+
   const [customer, setCustomer] = useState({
     customerName: "",
     emailAddress: "",
@@ -27,8 +30,6 @@ const CustomerProfileUpdate = (props) => {
       });
     }
   }, [isLoggedIn, userDetails]);
-
-  // Check checkbox if dietary restriction is present using useEffect
 
   const inputChangeHandler = (event) => {
     const target = event.target;

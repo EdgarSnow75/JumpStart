@@ -5,6 +5,9 @@
   min-height: 100vh;
 }
 body {
+  width: 100vw;
+  overflow-y: auto;
+  overflow-x: hidden;
   margin: 0;
   display: flex;
   place-items: center;

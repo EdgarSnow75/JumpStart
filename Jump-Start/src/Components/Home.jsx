@@ -10,11 +10,10 @@ import DIYList from "./Products/Category/DIYList";
 import HomeCareList from "./Products/Category/HomeCareList";
 import GiftList from "./Products/Category/GiftList";
 import TrendingList from "./Products/Category/TrendingList";
+import { useSelector } from "react-redux";
 
-const Home = (props) => {
+const Home = ({ cartDetails, setCartDetails, setToasts }) => {
   const [selectedTab, setSelectedTab] = useState("all");
-
-  const { userDetails, cartDetails, setCartDetails } = props;
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
@@ -128,25 +127,34 @@ const Home = (props) => {
         </div>
         {selectedTab === "all" && (
           <ProductList
-            userDetails={userDetails}
+            cartDetails={cartDetails}
+            setCartDetails={setCartDetails}
+            setToasts={setToasts}
+          />
+        )}
+        {selectedTab === "kitchen" && (
+          <KitchenList
             cartDetails={cartDetails}
             setCartDetails={setCartDetails}
           />
         )}
-        {selectedTab === "kitchen" && (
-          <KitchenList userDetails={userDetails} cartDetails={cartDetails} setCartDetails={setCartDetails}/>
-        )}
         {selectedTab === "diy" && (
-          <DIYList userDetails={userDetails} cartDetails={cartDetails} setCartDetails={setCartDetails}/>
+          <DIYList cartDetails={cartDetails} setCartDetails={setCartDetails} />
         )}
         {selectedTab === "gift" && (
-          <GiftList userDetails={userDetails} cartDetails={cartDetails} setCartDetails={setCartDetails}/>
+          <GiftList cartDetails={cartDetails} setCartDetails={setCartDetails} />
         )}
         {selectedTab === "home-care" && (
-          <HomeCareList userDetails={userDetails} cartDetails={cartDetails} setCartDetails={setCartDetails}/>
+          <HomeCareList
+            cartDetails={cartDetails}
+            setCartDetails={setCartDetails}
+          />
         )}
         {selectedTab === "trending" && (
-          <TrendingList userDetails={userDetails} cartDetails={cartDetails} setCartDetails={setCartDetails}/>
+          <TrendingList
+            cartDetails={cartDetails}
+            setCartDetails={setCartDetails}
+          />
         )}
       </div>
     </div>
