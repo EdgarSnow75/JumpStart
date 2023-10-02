@@ -62,10 +62,10 @@ const NavbarLinks = ({ navigator }) => {
           </ul>
         </li>
         <li>
-          <a>Orders</a>
+          <a onClick={() => navigator("/Orders")}>Orders</a>
         </li>
         <li>
-          <a>Customer Service</a>
+          <a onClick={() => navigator("/CustomerService")}>Customer Service</a>
         </li>
       </ul>
     </div>

@@ -44,18 +44,20 @@ const CustomerProfileUpdate = ({ setToasts }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+    console.log("Trying to update!");
     try {
       const response = await CustomerService.update(customer);
+      console.log("Updated :", response);
       setToasts((toasts) => [
         ...toasts,
-        new ToastProps({ message: response.msg }),
+        new ToastProps({ message: "Updated Successfully" }),
       ]);
+      navigate(-1);
     } catch (error) {
-      const err = error.response.data.msg;
+      // const err = error.response.data.msg;
       setToasts((toasts) => [
         ...toasts,
-        new ToastProps({ type: "error", message: err }),
+        new ToastProps({ type: "error", message: error }),
       ]);
     }
   };

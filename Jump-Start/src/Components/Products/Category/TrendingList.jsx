@@ -2,9 +2,9 @@ import StoreService from "../../../services/StoreService";
 import { useEffect, useState } from "react";
 import SingleProduct from "../SingleProduct";
 
-const TrendingList = ([visibleItems, setVisibleItems]) => {
-  const { cartDetails, setCartDetails } = props;
+const TrendingList = ({ cartDetails, setCartDetails } ) => {
   const [items, setItems] = useState([]);
+  const [visibleItems, setVisibleItems] = useState([]);
 
   const viewItems = async () => {
     try {

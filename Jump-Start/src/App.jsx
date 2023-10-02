@@ -5,9 +5,9 @@ import Header from "./Components/Common/Header";
 import Footer from "./Components/Common/Footer";
 import AboutUs from "./Components/Common/AboutUs";
 import UserLogin from "./Components/Login&SignUp/UserLogin";
-import Privacy from "./Components/Privacy";
-import Return from "./Components/Return";
-import Contact from "./Components/Contact";
+import Privacy from "./Components/Common/Privacy";
+import Return from "./Components/Common/Return";
+import Contact from "./Components/Common/Contact";
 import ThankYou from "./Components/Login&SignUp/ThankYou";
 import UserSignUp from "./Components/Login&SignUp/UserSignUp";
 import { useEffect, useState } from "react";
@@ -43,6 +43,8 @@ import FilterResults from "./Components/Products/Filter/FilterResults";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/authSlice";
 import { userActions } from "./store/userSlice";
+import StoreMap from "./Components/Location/StoreMap";
+import OnConstruct from "./Components/Common/Error/OnConstruct";
 
 library.add(faTrashCan, faMinus, faPlus);
 
@@ -250,6 +252,10 @@ const App = () => {
           <Route path="/ContactUs" element={<Contact />}></Route>
           <Route path="/Privacy" element={<Privacy />}></Route>
           <Route path="/Return" element={<Return />}></Route>
+          <Route path="/StoreMap" element={<StoreMap />}></Route>
+          <Route path="/Orders" element={<OnConstruct />}></Route>
+          <Route path="/Distributor" element={<OnConstruct />}></Route>
+          <Route path="/CustomerService" element={<OnConstruct />}></Route>
         </Routes>
         <ToastContainer toasts={toasts} />
       </BrowserRouter>

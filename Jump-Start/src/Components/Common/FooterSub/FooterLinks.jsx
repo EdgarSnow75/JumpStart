@@ -8,10 +8,10 @@ const FooterLinks = () => {
       </div>
       <ul className="menu menu-horizontal  rounded-box">
         <li>
-          <a>Customer Support</a>
+          <a href="/CustomerService"> Customer Support</a>
         </li>
         <li>
-          <a>Become a Distributor</a>
+          <a href="/Distributor">Become a Distributor</a>
         </li>
         <li>
           <a href="/Return">Return Policy</a>

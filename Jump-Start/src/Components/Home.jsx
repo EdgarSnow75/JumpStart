@@ -10,7 +10,6 @@ import DIYList from "./Products/Category/DIYList";
 import HomeCareList from "./Products/Category/HomeCareList";
 import GiftList from "./Products/Category/GiftList";
 import TrendingList from "./Products/Category/TrendingList";
-import { useSelector } from "react-redux";
 
 const Home = ({ cartDetails, setCartDetails, setToasts }) => {
   const [selectedTab, setSelectedTab] = useState("all");
